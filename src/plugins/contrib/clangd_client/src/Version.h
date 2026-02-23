@@ -25,7 +25,7 @@
 #endif
 
 //-----Release-Feature-Fix------------------
-#define VERSION wxT("1.2.146 26/02/07")
+#define VERSION wxT("1.2.147 26/02/22")
 //------------------------------------------
 // Release - Current development identifier
 // Feature - User interface level
@@ -51,6 +51,7 @@ class AppVersion
 // ----------------------------------------------------------------------------
 // Modifications
 // ----------------------------------------------------------------------------
+//1.2.147   2026/02/22 Gemini wxRecusionGuard crash fix to asyncprocess.cpp
 //1.2.146   2026/02/07 Fix ClassBrowser Fix asserts caused by invalid wxTreeItemId(s)
 //1.2.145   2026/02/07 Apply Christo patch #1585 check hover data against active editor
 //1.2.144   2025/12/16 Apply Christo patch #1576

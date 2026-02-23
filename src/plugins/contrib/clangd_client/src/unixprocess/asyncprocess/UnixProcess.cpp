@@ -20,6 +20,7 @@
 #include <string.h>
 #include <sys/select.h>
 #include <sys/types.h>
+#include <memory>
 
 #include <wx/msgdlg.h>
 
@@ -226,9 +227,10 @@ void UnixProcess::StartReaderThread()
                     process->m_owner->ProcessEvent(evt);
                     break;
                 } else if(not content.empty()) {
-                    wxThreadEvent evt(isReadFromFdOut ? wxEVT_ASYNC_PROCESS_OUTPUT : wxEVT_ASYNC_PROCESS_STDERR);
-                    evt.SetPayload<std::string*>(&content);
-                    process->m_owner->ProcessEvent(evt);
+                    wxThreadEvent* evt = new wxThreadEvent(isReadFromFdOut ? wxEVT_ASYNC_PROCESS_OUTPUT : wxEVT_ASYNC_PROCESS_STDERR);
+                    evt->SetPayload(std::make_shared<std::string>(content));
+                    process->m_owner->QueueEvent(evt);
+
                     content.clear();
                 }
             }

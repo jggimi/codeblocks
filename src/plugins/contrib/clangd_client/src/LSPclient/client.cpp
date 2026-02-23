@@ -1,3 +1,4 @@
+#include <memory>
 #include <ctime>
 #include <iomanip>
 #include <sstream>
@@ -938,8 +939,8 @@ cbStyledTextCtrl* ProcessLanguageClient::GetStaticHiddenEditor(const wxString& f
 void ProcessLanguageClient::OnClangd_stderr(wxThreadEvent& event)
 // ----------------------------------------------------------------------------
 {
-    std::string* pErrStr = event.GetPayload<std::string*>();
-    if ( pErrStr->length())
+    std::shared_ptr<std::string> pErrStr = event.GetPayload<std::shared_ptr<std::string>>();
+    if ( pErrStr && pErrStr->length())
         writeServerLog( pErrStr->c_str() );
 
     return;
@@ -973,7 +974,6 @@ void ProcessLanguageClient::OnClangd_stdout(wxThreadEvent& event)
         }
 
     // Ignore any clangd data when app is shutting down.
-    //-if (Manager::IsAppShuttingDown()) return; //(Christo ticket 1423 2023/10/16)
     if (Manager::IsAppShuttingDown())            //(Christo ticket 1423 2023/10/16)
     {
         m_MutexInputBufGuard.Unlock();
@@ -981,12 +981,14 @@ void ProcessLanguageClient::OnClangd_stdout(wxThreadEvent& event)
     }
 
     // Append clangd incomming response data to buffer;
-    std::string* pRawOutput = event.GetPayload<std::string*>();
-    if (not pRawOutput->size())
+    std::shared_ptr<std::string> pRawOutput = event.GetPayload<std::shared_ptr<std::string>>();
+    if (not pRawOutput || not pRawOutput->size())
     {
         writeClientLog("Error: clangd responded with a zero length buffer.");
+        m_MutexInputBufGuard.Unlock();
+        return;
     }
-    std::string std_clangdRawOutput = *pRawOutput;
+    //std::string std_clangdRawOutput = *pRawOutput;
     m_std_LSP_IncomingStr.append(*pRawOutput);
     m_CondInputBuf.Signal(); //(Christo ticket 1423 2023/10/16) post jsonRead wait
 

@@ -9,6 +9,7 @@
 //    (at your option) any later version.
 //
 // ----------------------------------------------------------------------------
+#include <memory>
 #include "asyncprocess.h"
 #include "processreaderthread.h"
 
@@ -74,37 +75,25 @@ void* ProcessReaderThread::Entry()
                             if(!buff.IsEmpty() && m_notifiedWindow) {
                                 // fallback to the event system
                                 // we got some data, send event to parent
-                                //clProcessEvent e(wxEVT_ASYNC_PROCESS_OUTPUT);
-                                wxThreadEvent e(wxEVT_ASYNC_PROCESS_OUTPUT, wxID_NONE);
-                                //-wxString& b = const_cast<wxString&>(e.GetOutput());
-                                //-b.swap(buff);
-                                //e.SetProcess(m_process);
-                                //m_notifiedWindow->AddPendingEvent(e);
-                                //std::string stdstr = buff.ToStdString(); loses data
+                                wxThreadEvent* e = new wxThreadEvent(wxEVT_ASYNC_PROCESS_OUTPUT, wxID_NONE);
                                 #if wxCHECK_VERSION(3,1,5)
                                 std::string stdstr = buff.utf8_string();
                                 #else
                                 std::string stdstr = buff.ToStdString(wxConvUTF8);
                                 #endif
-                                e.SetPayload<std::string*>(&stdstr);
-                                m_notifiedWindow->ProcessEvent(e);
+                                e->SetPayload(std::make_shared<std::string>(stdstr));
+                                m_notifiedWindow->QueueEvent(e);
                             }
                             if(!buffErr.IsEmpty() && m_notifiedWindow) {
                                 // we got some data, send event to parent
-                                //clProcessEvent e(wxEVT_ASYNC_PROCESS_STDERR);
-                                wxThreadEvent e(wxEVT_ASYNC_PROCESS_STDERR, wxID_NONE);
-                                //wxString& b = const_cast<wxString&>(e.GetOutput());
-                                //b.swap(buffErr);
-                                //e.SetProcess(m_process);
-                                //m_notifiedWindow->AddPendingEvent(e);
-                                //-std::string stdstr = buffErr.ToStdString(); loses data
+                                wxThreadEvent* e = new wxThreadEvent(wxEVT_ASYNC_PROCESS_STDERR, wxID_NONE);
                                 #if wxCHECK_VERSION(3,1,5)
-                                std::string stdstr = buff.utf8_string();
+                                std::string stdstr = buffErr.utf8_string();
                                 #else
-                                std::string stdstr =  buff.ToStdString(wxConvUTF8);
+                                std::string stdstr =  buffErr.ToStdString(wxConvUTF8);
                                 #endif
-                                e.SetPayload<std::string*>(&stdstr);
-                                m_notifiedWindow->ProcessEvent(e);
+                                e->SetPayload(std::make_shared<std::string>(stdstr));
+                                m_notifiedWindow->QueueEvent(e);
                             }
                         }
                     }
