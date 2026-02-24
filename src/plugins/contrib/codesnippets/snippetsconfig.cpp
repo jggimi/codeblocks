@@ -239,13 +239,14 @@ void CodeSnippetsConfig::SettingsSave()
 	cfgFile.Write( wxT("scope"),           int(m_SearchConfig.scope) );
 	cfgFile.Write( wxT("EditorsStayOnTop"),SettingsEditorsStayOnTop );
 	cfgFile.Write( wxT("ToolTipsOption"),  SettingsToolTipsOption );
-	if ( IsPlugin() )
-	{   // Write ExternalPersistent for plugin use only
-        cfgFile.Write( wxT("ExternalPersistentOpen"),IsExternalPersistentOpen() );
-        #if defined(LOGGING)
-        //LOGIT( _T("ExternalPersistentOpen is[%s]"), IsExternalPersistentOpen()?_T("true"):_T("false"));
-        #endif
-	}
+
+    //if ( IsPlugin() )
+    //{   // Write ExternalPersistent for plugin use only
+    //    cfgFile.Write( wxT("ExternalPersistentOpen"),IsExternalPersistentOpen() );
+    //    #if defined(LOGGING)
+    //    //LOGIT( _T("ExternalPersistentOpen is[%s]"), IsExternalPersistentOpen()?_T("true"):_T("false"));
+    //    #endif
+    //}
 
     //wxString lastWindowState = wxT("External");
     //if ( IsFloatingWindow() ) {lastWindowState = wxT("Floating");}
@@ -342,9 +343,10 @@ void CodeSnippetsConfig::SettingsSaveWinPosition()
     // here use the snippets windows' parent, not the main frame
     // Our window was reparented by wxAUI.
     wxWindow* pwin = (wxWindow*)GetSnippetsWindow();
-    if (pwin && IsPlugin() && pwin->GetParent() )
+    if (pwin && pwin->GetParent() )
         pwin = pwin->GetParent();
     else return;
+
     int winXposn, winYposn, winWidth, winHeight;
     pwin->GetPosition( &winXposn, &winYposn );
     pwin->GetSize( &winWidth, &winHeight );

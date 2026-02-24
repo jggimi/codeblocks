@@ -135,11 +135,11 @@ class CodeSnippetsTreeCtrl : public wxTreeCtrl
                 if (not IsSnippet(itemId) ) return wxEmptyString;
                 wxString fileName = GetSnippetString(itemId).BeforeFirst('\r');
                 fileName = fileName.BeforeFirst('\n');
-                //-#if defined(BUILDING_PLUGIN)
+
                 static const wxString delim(_T("$%["));
                 if( fileName.find_first_of(delim) != wxString::npos )
                     Manager::Get()->GetMacrosManager()->ReplaceMacros(fileName);
-                //-#endif
+
                 return fileName;
             }
 

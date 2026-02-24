@@ -39,7 +39,6 @@
 // wxWidget headers not include in wx_pch.h
     #include <wx/clipbrd.h>
 
-//-#if defined(BUILDING_PLUGIN)
     #include "sdk.h"
     #ifndef CB_PRECOMP
         #include "manager.h"
@@ -52,7 +51,6 @@
         #include "globals.h"
     #endif
     #include "cbstyledtextctrl.h"
-//-#endif
 
 // project headers
 #include "version.h"
@@ -152,6 +150,9 @@ BEGIN_EVENT_TABLE(CodeSnippetsWindow, wxPanel)
     EVT_TEXT(idSearchSnippetCtrl, CodeSnippetsWindow::OnSearch)
     EVT_TREE_ITEM_ACTIVATED(idSnippetsTreeCtrl, CodeSnippetsWindow::OnItemActivated)
     EVT_TREE_ITEM_MENU(idSnippetsTreeCtrl, CodeSnippetsWindow::OnItemMenu)
+    EVT_TREE_ITEM_RIGHT_CLICK(idSnippetsTreeCtrl, CodeSnippetsWindow::OnTreeItemRightClick)
+///EVT_TREE_ITEM_RIGHT_CLICK(ID_TREE_CTRL, MyFrame::OnTreeRightClick)
+
     EVT_TREE_BEGIN_DRAG(idSnippetsTreeCtrl, CodeSnippetsWindow::OnBeginDrag)
     EVT_TREE_END_DRAG(idSnippetsTreeCtrl, CodeSnippetsWindow::OnEndDrag)
     EVT_TREE_BEGIN_LABEL_EDIT(idSnippetsTreeCtrl, CodeSnippetsWindow::OnBeginLabelEdit)
@@ -296,7 +297,7 @@ void CodeSnippetsWindow::OnClose(wxCloseEvent& event)
     #endif
     GetConfig()->SettingsSave();
 
-    if (GetConfig()->IsPlugin())
+    if (GetConfig())
     {
         if ( GetConfig()->IsFloatingWindow() )
             GetConfig()->SettingsSaveWinPosition();
@@ -312,7 +313,7 @@ void CodeSnippetsWindow::OnClose(wxCloseEvent& event)
     // Destroy() only for standalone CodeSnippets
     // If being called from plugins OnRelease(),  Destroy()
     // will crash wxAuiNotebook on CB termination.
-    if (not GetConfig()->IsPlugin())
+    if (not GetConfig())
     {
         Destroy();
         GetConfig()->pSnippetsWindow = 0;
@@ -506,6 +507,13 @@ void CodeSnippetsWindow::OnItemActivated(wxTreeEvent& event)
     OnMnuEditSnippet( ev );
 }
 // ----------------------------------------------------------------------------
+void CodeSnippetsWindow::OnTreeItemRightClick(wxTreeEvent& event)
+// ----------------------------------------------------------------------------
+{
+    OnItemMenu(event);
+    return;
+}
+// ----------------------------------------------------------------------------
 void CodeSnippetsWindow::OnItemMenu(wxTreeEvent& event)
 // ----------------------------------------------------------------------------
 {
@@ -539,7 +547,7 @@ void CodeSnippetsWindow::OnItemMenu(wxTreeEvent& event)
                 if (!GetSnippetsTreeCtrl()->ItemHasChildren(GetSnippetsTreeCtrl()->GetRootItem()))
                     snippetsTreeMenu->Enable(idMnuRemoveAll, false);
 
-                if ( GetConfig()->IsPlugin() )
+                if ( GetConfig() )
                 {
                     snippetsTreeMenu->AppendSeparator();
                     snippetsTreeMenu->Append(idMnuSaveSnippets, _("Save Index"));
@@ -566,13 +574,13 @@ void CodeSnippetsWindow::OnItemMenu(wxTreeEvent& event)
                         snippetsTreeMenu->Append(idMnuLoadSnippetsFromFile, _("Load Index File..."));
                         m_AppendItemsFromFile = false;
                     }
-                }//if IsPlugin
+                }//if GetConfig
 
                 snippetsTreeMenu->AppendSeparator();
                 // FIXME: full search is no longer available
                 //-snippetsTreeMenu->Append(idMnuSearchExtended, _("Full Search"));
                 snippetsTreeMenu->Append(idMnuSettings, _("Settings..."));
-               if ( GetConfig()->IsPlugin() ){
+               if ( GetConfig() ){
                     snippetsTreeMenu->Append(idMnuAbout, _("About..."));
                     #if defined(LOGGING)
                     snippetsTreeMenu->Append(idMnuTest, _("Test")); //debugging
@@ -611,11 +619,10 @@ void CodeSnippetsWindow::OnItemMenu(wxTreeEvent& event)
                         snippetsTreeMenu->Append(idMnuOpenFileLink,_("Open URL"));
                 }
 
-                //-#if defined(BUILDING_PLUGIN)
-                if (GetConfig()->IsPlugin())
+                if (GetConfig())
                 {   snippetsTreeMenu->Append(idMnuApplySnippet, _("Append to active window"));
                 }
-                //-#endif
+
                 if ( IsFileSnippet(itemId) )
                     snippetsTreeMenu->Append(idMnuCopyToClipboard, _("Clipboard <= FileName"));
                 else
@@ -771,7 +778,8 @@ void CodeSnippetsWindow::OnMnuAddSnippet(wxCommandEvent& /*event*/)
 void CodeSnippetsWindow::ApplySnippet(const wxTreeItemId& itemID)
 // ----------------------------------------------------------------------------
 {
-    // Get the item
+    // Get the item and add the text to the current active editor
+
     if (const SnippetTreeItemData* item = (SnippetTreeItemData*)(GetSnippetsTreeCtrl()->GetItemData(itemID)))
     {
         // Check that we're using the correct item type
@@ -779,21 +787,16 @@ void CodeSnippetsWindow::ApplySnippet(const wxTreeItemId& itemID)
         {
             return;
         }
-      //-#if defined(BUILDING_PLUGIN)
-        if (GetConfig()->IsPlugin() )
+        // Are we adding to an editor or to the clipboard
+        if (GetConfig()) for(;;)
         {
             // Check that editor is open
             EditorManager* editorMan = Manager::Get()->GetEditorManager();
-            if(!editorMan)
-            {
-                return;
-            }
+            if(not editorMan) break;
 
             cbEditor* editor = editorMan->GetBuiltinActiveEditor();
-            if(!editor)
-            {
-                return;
-            }
+            // Is there a active CB scintilla editor
+            if(not editor) break;
 
             cbStyledTextCtrl* ctrl = editor->GetControl();
             if(ctrl)
@@ -805,13 +808,13 @@ void CodeSnippetsWindow::ApplySnippet(const wxTreeItemId& itemID)
                 // Honor target source line indentation
                 snippet.Replace(wxT("\n"), wxT('\n') + editor->GetLineIndentString(ctrl->GetCurrentLine()));
                 ctrl->AddText(snippet);
+                return;
             }
-        }//ifPlugin
-        //-#else //NOT defined(BUILDING_PLUGIN)
-        else
-            AddTextToClipBoard( item->GetSnippetString() );
-        //-#endif //defined(BUILDING_PLUGIN)
-    }
+
+        }//endif config
+
+        AddTextToClipBoard( item->GetSnippetString() );
+    }// endif good item
 }
 // ----------------------------------------------------------------------------
 void CodeSnippetsWindow::OnMnuApplySnippet(wxCommandEvent& /*event*/)
@@ -1041,11 +1044,9 @@ void CodeSnippetsWindow::OnMnuCopyToClipboard(wxCommandEvent& event)
         if (itemData)
         {
             wxString itemStr = itemData->GetSnippetString();
-            //-#if defined(BUILDING_PLUGIN)
             static const wxString delim(_T("$%["));
             if( itemStr.find_first_of(delim) != wxString::npos )
                 Manager::Get()->GetMacrosManager()->ReplaceMacros(itemStr);
-            //-#endif
 
             wxTheClipboard->SetData(new wxTextDataObject(itemStr));
             wxTheClipboard->Close();
@@ -1135,11 +1136,10 @@ void CodeSnippetsWindow::CheckForMacros(wxString& snippet)
 
         wxString macroName = snippet.SubString(macroPos + 2, macroPosEnd - 1);
         wxString defaultResult = snippet.SubString(macroPos,macroPosEnd);
-        //-#if defined(BUILDING_PLUGIN)
+
         static const wxString delim(_T("$%["));
         if( defaultResult.find_first_of(delim) != wxString::npos )
             Manager::Get()->GetMacrosManager()->ReplaceMacros(defaultResult);
-        //-#endif
 
         wxString macro = cbGetTextFromUser(wxString::Format(_("Please enter the text for \"%s\":"), macroName.c_str()),
             _("Macro substitution"),defaultResult,0,
@@ -1188,8 +1188,8 @@ void CodeSnippetsWindow::OnItemGetToolTip(wxTreeEvent& event)
             // Replace all tabs with spaces; tabs break the tooltips
             snippetToolTip.Replace(_T("\t"), _T("    "));
 
-            if ( not snippetToolTip.IsEmpty() ) //avoid " ..." only tooltip
-            if (snippetToolTip.Len() > charsInToolTip || originalLength > charsInToolTip)
+            if ( (not snippetToolTip.IsEmpty()) && //avoid " ..." only tooltip
+                (snippetToolTip.Len() > charsInToolTip || originalLength > charsInToolTip) )
             {
                 snippetToolTip = snippetToolTip.Mid(0, charsInToolTip - 4);
                 snippetToolTip.Append(_T(" ..."));
@@ -1326,8 +1326,8 @@ void CodeSnippetsWindow::CheckForExternallyModifiedFiles()
     if ( fileModTime == time_t(0) ) //not yet initialized
         b_modified = false;
     else
-    if ( last.IsLaterThan(GetSnippetsTreeCtrl()->GetSavedFileModificationTime()) )
-        b_modified = true;
+        if ( last.IsLaterThan(GetSnippetsTreeCtrl()->GetSavedFileModificationTime()) )
+            b_modified = true;
 
     if (b_modified)
     {

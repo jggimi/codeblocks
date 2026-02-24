@@ -105,6 +105,8 @@ class CodeSnippetsWindow : public wxPanel
 		void OnSearch(wxCommandEvent& event);
 		void OnItemActivated(wxTreeEvent& event);
 		void OnItemMenu(wxTreeEvent& event);
+		void OnTreeItemRightClick(wxTreeEvent& event);
+
 		void OnBeginDrag(wxTreeEvent& event);
 		void OnEndDrag(wxTreeEvent& event);
 		void OnMnuAddSubCategory(wxCommandEvent& event);

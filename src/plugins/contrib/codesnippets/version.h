@@ -58,13 +58,17 @@ class AppVersion
 
 #include <wx/string.h>
 //-----Release-Feature-Fix------------------
-#define VERSION wxT("1.4.5 23/04/12")
+#define VERSION wxT("1.4.6 26/02/24")
 //------------------------------------------
 // Release - Current development level
 // Feature - User interface level
 // Fix     - bug fix or non UI breaking addition
 #endif // VERSION_H
-
+//versions
+// 1.4.6 2026/02/24 Clean up/simplyfy post build steps
+//      Fix the right-mouse-click to show the context menus
+//      clean up the code with -Wextra
+//
 // ----------------------------------------------------------------------------
 //  Commit 1.4.5 2023/04/12
 //      Modded 1.4.5 T 2023/04/10

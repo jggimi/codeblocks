@@ -119,7 +119,7 @@ class CodeSnippetsConfig
 
     void CenterChildOnParent( wxWindow* child, wxWindow* parent=0);
 
-    bool IsPlugin(){return m_bIsPlugin;}
+    //-bool IsPlugin(){return m_bIsPlugin;}
     bool IsApplication(){return not m_bIsPlugin;}
 
     bool  IsDockedWindow(wxWindow** pw = 0, wxPoint* pcoord = 0, wxSize* psize = 0);

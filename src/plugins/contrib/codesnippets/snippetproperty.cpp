@@ -30,10 +30,7 @@
     #include <wx/file.h>
     #include <wx/filename.h>
     #include <wx/dnd.h>
-
-//-#if defined(BUILDING_PLUGIN)
     #include "sdk.h"
-//-#endif
 
 #include "codesnippetswindow.h"
 #include "snippetitemdata.h"
@@ -214,12 +211,7 @@ void SnippetProperty::OnSnippetButton(wxCommandEvent& event)
     }
 
     // Snippet button clicked from menubar edit(Menu) or properties context(Mnu)
-    if ( ( g_activeMenuId == idMnuProperties ) //note: mnu vs menu
-        //-#if defined(__WXMSW__) && !defined(BUILDING_PLUGIN)
-        //-#if !defined(BUILDING_PLUGIN)
-        //-    || ( g_activeMenuId == idMenuProperties)
-        //-#endif
-        )
+    if ( ( g_activeMenuId == idMnuProperties )) //note: mnu vs menu
     {
         if ( GetConfig()->SettingsExternalEditor.IsEmpty())
         {

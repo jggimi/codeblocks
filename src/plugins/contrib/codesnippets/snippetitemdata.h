@@ -24,10 +24,7 @@
 
 #include <wx/treectrl.h>
 #include <wx/string.h>
-
-//-#if defined(BUILDING_PLUGIN)
-    #include "macrosmanager.h"
-//-#endif
+#include "macrosmanager.h"
 
 // ----------------------------------------------------------------------------
 class SnippetTreeItemData : public wxTreeItemData
@@ -68,7 +65,7 @@ class SnippetTreeItemData : public wxTreeItemData
                 if (not IsSnippet() ) return wxEmptyString ;
                 wxString FileName = GetSnippetString().BeforeFirst('\r');
                          FileName = FileName.BeforeFirst('\n');
-                //-#if defined(BUILDING_PLUGIN)
+
                 static const wxString delim(_T("$%["));
                 if( FileName.find_first_of(delim) != wxString::npos )
                     Manager::Get()->GetMacrosManager()->ReplaceMacros(FileName);

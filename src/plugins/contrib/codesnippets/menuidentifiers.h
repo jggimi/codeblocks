@@ -30,14 +30,7 @@ extern int idMenuSettingsOptions;
 extern int idMnuConvertToFileLink      ;
 
 
-//#if defined(__WXMSW__) && defined(BUILDING_PLUGIN)
 extern int idViewSnippets ;
-//#endif
-
-//-#if defined(__WXMSW__) && !defined(BUILDING_PLUGIN)
-//-#if !defined(BUILDING_PLUGIN)
-//-extern int idMenuProperties    ;
-//-#endif
 
 // Search control menu ids
 extern int idSearchSnippetCtrl ;

@@ -474,7 +474,7 @@ void CodeSnippets::OnViewSnippets(wxCommandEvent& event)
 // ----------------------------------------------------------------------------
 {
     wxUnusedVar(event);
-    // For some unknow reason, event.IsCheck() gives an incorrect state
+    // For some unknown reason, event.IsCheck() gives an incorrect state
     // So we'll find the menu check item ourselves
     wxMenuBar* pbar = Manager::Get()->GetAppFrame()->GetMenuBar();
     wxMenu* pViewMenu = 0;
@@ -1264,7 +1264,8 @@ void CodeSnippets::SendMouseLeftUp(const wxWindow* pWin, const int mouseX, const
         // move mouse into the window
         MSW_MouseMove( fullScreen.x, fullScreen.y );
         // send mouse LeftKeyUp
-        INPUT Input         = {0,{{0}}};
+        INPUT Input;
+        ZeroMemory(&Input, sizeof(INPUT));
         Input.type          = INPUT_MOUSE;
         Input.mi.dwFlags    = MOUSEEVENTF_LEFTUP;
         ::SendInput(1,&Input,sizeof(INPUT));
@@ -1283,7 +1284,8 @@ void CodeSnippets::MSW_MouseMove(int x, int y )
       double fScreenHeight  = ::GetSystemMetrics( SM_CYSCREEN )-1;
       double fx = x*(65535.0f/fScreenWidth);
       double fy = y*(65535.0f/fScreenHeight);
-      INPUT Input = {0,{{0}}};
+      INPUT Input;
+      ZeroMemory(&Input, sizeof(INPUT));
       Input.type      = INPUT_MOUSE;
       Input.mi.dwFlags  = MOUSEEVENTF_MOVE|MOUSEEVENTF_ABSOLUTE;
       Input.mi.dx = (LONG)fx;

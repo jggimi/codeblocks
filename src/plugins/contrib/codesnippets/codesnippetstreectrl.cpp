@@ -32,7 +32,6 @@
 #include <wx/filename.h>
 #include "wx/mimetype.h"
 
-//-#if defined(BUILDING_PLUGIN)
 #include "sdk.h"
 #ifndef CB_PRECOMP
 #include "manager.h"
@@ -42,8 +41,6 @@
 #include "globals.h"
 #include "infowindow.h"
 #endif
-//-#else
-//-#endif
 
 #include "cbstyledtextctrl.h"
 #include "snippetitemdata.h"
@@ -125,12 +122,11 @@ bool CodeSnippetsTreeCtrl::IsFileSnippet (wxTreeItemId treeItemId  )
     wxString fileName = GetSnippetString(itemId).BeforeFirst('\r');
     fileName = fileName.BeforeFirst('\n');
     // substitute $macros with actual text
-    //-#if defined(BUILDING_PLUGIN)
+
     static const wxString delim(_T("$%["));
     if( fileName.find_first_of(delim) != wxString::npos )
         Manager::Get()->GetMacrosManager()->ReplaceMacros(fileName);
     //-LOGIT( _T("$macros name[%s]"),fileName.c_str() );
-    //-#endif
 
     return ::wxFileExists(fileName);
 }
@@ -145,12 +141,12 @@ bool CodeSnippetsTreeCtrl::IsFileLinkSnippet (wxTreeItemId treeItemId  )
     wxString fileName = GetSnippetString(itemId).BeforeFirst('\r');
     fileName = fileName.BeforeFirst('\n');
     // substitute $macros with actual text
-    //-#if defined(BUILDING_PLUGIN)
+
     static const wxString delim(_T("$%["));
     if( fileName.find_first_of(delim) != wxString::npos )
         Manager::Get()->GetMacrosManager()->ReplaceMacros(fileName);
     //-LOGIT( _T("$macros name[%s]"),fileName.c_str() );
-    //-#endif
+
     if (fileName.Length() > 128)
     {
         // if text is > 128 characters, not a filelink.
@@ -172,12 +168,12 @@ wxString CodeSnippetsTreeCtrl::GetFileLinkExt (wxTreeItemId treeItemId  )
     wxString fileName = GetSnippetString(itemId).BeforeFirst('\r');
     fileName = fileName.BeforeFirst('\n');
     // substitute $macros with actual text
-    //-#if defined(BUILDING_PLUGIN)
+
     static const wxString delim(_T("$%["));
     if( fileName.find_first_of(delim) != wxString::npos )
         Manager::Get()->GetMacrosManager()->ReplaceMacros(fileName);
     //-LOGIT( _T("$macros name[%s]"),fileName.c_str() );
-    //-#endif
+
     if ( not ::wxFileExists( fileName) ) return wxEmptyString;
     wxFileName filename(fileName);
     return filename.GetExt();
@@ -239,6 +235,7 @@ void CodeSnippetsTreeCtrl::OnItemRightSelected(wxTreeEvent& event)
     // So we'll select it ourself.
 
     SelectItem(event.GetItem());                                                         //(pecan 2006/9/12)
+    event.Skip();
 }
 // ----------------------------------------------------------------------------
 int CodeSnippetsTreeCtrl::OnCompareItems(const wxTreeItemId& item1, const wxTreeItemId& item2)
@@ -698,18 +695,17 @@ bool CodeSnippetsTreeCtrl::LoadItemsFromFile(const wxString& fileName, bool bApp
 
             // Overwrite it
             wxCopyFile(fileName, backupFile, true);
-            //-#if defined(BUILDING_PLUGIN)
-            if ( GetConfig()->IsPlugin() )
+
+            if ( GetConfig() )
             {
                 Manager::Get()->GetLogManager()->DebugLog(_T("CodeSnippets: Cannot load file \"") + fileName + _T("\": ") + csC2U(doc.ErrorDesc()));
                 Manager::Get()->GetLogManager()->DebugLog(_T("CodeSnippets: Backup of the failed file has been created."));
             }
-            else //IsApplication
-            {
-                wxMessageBox(wxString::Format(_("CodeSnippets: Cannot load file \"%s\": %s"), fileName, csC2U(doc.ErrorDesc())));
-                wxMessageBox(_("CodeSnippets: Backup of the failed file has been created."));
-            }
-            //-#endif
+            ////else //IsApplication
+            ////{
+            ////    wxMessageBox(wxString::Format(_("CodeSnippets: Cannot load file \"%s\": %s"), fileName, csC2U(doc.ErrorDesc())));
+            ////    wxMessageBox(_("CodeSnippets: Backup of the failed file has been created."));
+            ////}
         }
     }
     // Show the first level of items
@@ -1072,13 +1068,11 @@ void CodeSnippetsTreeCtrl::FinishExternalDrag()
     wxFileDataObject* fileData = new wxFileDataObject();
     // fill text and file sources with snippet
     wxString textStr = GetSnippetString(m_itemAtKeyDown) ;
-    //-#if defined(BUILDING_PLUGIN)
+
     // substitute any $(macro) text
     static const wxString delim(_T("$%["));
     if( textStr.find_first_of(delim) != wxString::npos )
         Manager::Get()->GetMacrosManager()->ReplaceMacros(textStr);
-    //-LOGIT( _T("SnippetsTreeCtrl OnLeaveWindow $macros text[%s]"),textStr.c_str() );
-    //-#endif
 
     wxDropSource textSource( *textData, this );
     textData->SetText( textStr );
@@ -1558,13 +1552,11 @@ void CodeSnippetsTreeCtrl::SaveSnippetAsFileLink()
     // filter filename, removing all illegal filename characters
     wxString newFileName = snippetLabel+wxT(".txt");
     wxFileName snippetFileName( newFileName) ;
-    //-#if defined(BUILDING_PLUGIN)
+
     // substitute any $(macro) text
     static const wxString delim(_T("$%["));
     if( newFileName.find_first_of(delim) != wxString::npos )
         Manager::Get()->GetMacrosManager()->ReplaceMacros(newFileName);
-    //-LOGIT( _T("$macros substitute[%s]"),newFileName.c_str() );
-    //-#endif
 
     //newFileName = snippetFileName.GetFullName();
     wxString forbidden = snippetFileName.GetForbiddenChars();
@@ -1651,11 +1643,10 @@ void CodeSnippetsTreeCtrl::EditSnippet(SnippetTreeItemData* pSnippetTreeItemData
         // Determine wheither this is just text or a filename
         wxString m_EditFileName = m_EditSnippetText.BeforeFirst('\r');
         m_EditFileName = m_EditFileName.BeforeFirst('\n');
-        //-#if defined(BUILDING_PLUGIN)
+
         static const wxString delim(_T("$%["));
         if( m_EditFileName.find_first_of(delim) != wxString::npos )
             Manager::Get()->GetMacrosManager()->ReplaceMacros(m_EditFileName);
-        //-#endif
 
         if ( (m_EditFileName.Length() < 129) && (::wxFileExists(m_EditFileName)) )
             /*OK we're editing a physical file, not just text*/;
@@ -1886,17 +1877,15 @@ int CodeSnippetsTreeCtrl::ExecuteDialog(SnippetProperty* pdlg, wxSemaphore& wait
 
     // Grab main apps close function so dlg isn't orphaned|crashed on close
     GetConfig()->GetMainFrame()->Connect( wxEVT_CLOSE_WINDOW,
-                                          (wxObjectEventFunction)(wxEventFunction)
-                                          (wxCloseEventFunction) &CodeSnippetsTreeCtrl::OnShutdown,NULL,this);
+                                          wxCloseEventHandler(CodeSnippetsTreeCtrl::OnShutdown),NULL,this);
 
     // Grab parents close function so dlg isn't orphaned|crashed on close)
     pw->Connect( wxEVT_CLOSE_WINDOW,
-                 (wxObjectEventFunction)(wxEventFunction)
-                 (wxCloseEventFunction) &CodeSnippetsTreeCtrl::OnShutdown,NULL,this);
+                 wxCloseEventHandler(CodeSnippetsTreeCtrl::OnShutdown),NULL,this);
 
     // The following works fine on windows, but does not disable the menu item on linux.
     // *and*, I no longer care.
-    if ( GetConfig()->IsPlugin() )
+    if ( GetConfig() )
         GetConfig()->GetMenuBar()->Enable(idViewSnippets, false);
 
     if ( pdlg->Show() )
@@ -1913,15 +1902,13 @@ int CodeSnippetsTreeCtrl::ExecuteDialog(SnippetProperty* pdlg, wxSemaphore& wait
     }
     // Release main apps closeWindow function
     GetConfig()->GetMainFrame()->Disconnect( wxEVT_CLOSE_WINDOW,
-            (wxObjectEventFunction)(wxEventFunction)
-            (wxCloseEventFunction) &CodeSnippetsTreeCtrl::OnShutdown);
+            wxCloseEventHandler(CodeSnippetsTreeCtrl::OnShutdown));
 
     // Release parents closeWindow function
     pw->Disconnect( wxEVT_CLOSE_WINDOW,
-                    (wxObjectEventFunction)(wxEventFunction)
-                    (wxCloseEventFunction) &CodeSnippetsTreeCtrl::OnShutdown);
+                    wxCloseEventHandler(CodeSnippetsTreeCtrl::OnShutdown));
 
-    if ( GetConfig()->IsPlugin() )
+    if ( GetConfig() )
         GetConfig()->GetMenuBar()->Enable(idViewSnippets, true);
 
     m_pPropertiesDialog = nullptr;
@@ -2023,7 +2010,7 @@ void CodeSnippetsTreeCtrl::OnIdle()
 {
     // check to enable menu items and update StatusBar
 
-    if ( GetConfig()->IsPlugin() )
+    if ( GetConfig() )
         GetConfig()->GetMenuBar()->Enable(idViewSnippets, true);
 
     // if search text is empty, show filename as root item
@@ -2185,7 +2172,8 @@ void CodeSnippetsTreeCtrl::SendMouseLeftUp(const wxWindow* pWin, const int mouse
         // move mouse into the window
         MSW_MouseMove( fullScreen.x, fullScreen.y );
         // send mouse LeftKeyUp
-        INPUT Input         = {0,{{0}}};
+        INPUT Input;
+        ZeroMemory(&Input, sizeof(INPUT));
         Input.type          = INPUT_MOUSE;
         Input.mi.dwFlags    = MOUSEEVENTF_LEFTUP;
         ::SendInput(1,&Input,sizeof(INPUT));
@@ -2204,7 +2192,8 @@ void CodeSnippetsTreeCtrl::MSW_MouseMove(int x, int y )
     double fScreenHeight  = ::GetSystemMetrics( SM_CYSCREEN )-1;
     double fx = x*(65535.0f/fScreenWidth);
     double fy = y*(65535.0f/fScreenHeight);
-    INPUT  Input= {0,{{0}}};
+    INPUT Input;
+    ZeroMemory(&Input, sizeof(INPUT));
     Input.type      = INPUT_MOUSE;
     Input.mi.dwFlags  = MOUSEEVENTF_MOVE|MOUSEEVENTF_ABSOLUTE;
     Input.mi.dx = (LONG)fx;
