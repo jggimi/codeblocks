@@ -7,13 +7,13 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Plugin - Win32">
-				<Option output="$(CODEBLOCKS)/../devel32_64/share/CodeBlocks/plugins/codesnippets.dll" prefix_auto="0" extension_auto="0" />
-				<Option working_dir="$(CODEBLOCKS)/../devel32_64" />
-				<Option object_output="$(CODEBLOCKS)/../.objs32_64/plugins/contrib/codesnippets/plugin/" />
+				<Option output="../../../devel32_64/share/CodeBlocks/plugins/codesnippets.dll" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="../../../devel32_64" />
+				<Option object_output="../../../.objs32_64/plugins/contrib/codesnippets/plugin/" />
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Option parameters="--debug-log --multiple-instance -na -ns -nd -p cbDebug328" />
-				<Option host_application="$(CODEBLOCKS)/../devel32_64/codeblocks.exe" />
+				<Option host_application="../../../devel32_64/codeblocks.exe" />
 				<Option run_host_application_in_terminal="0" />
 				<Compiler>
 					<Add option="$(#CB_RELEASE_TYPE)" />
@@ -50,10 +50,10 @@
 			<Add option="-DwxUSE_UNICODE" />
 			<Add option="-DBUILDING_PLUGIN" />
 			<Add option="-DNO_LOGGING" />
-			<Add directory="$(CODEBLOCKS)/../include" />
-			<Add directory="$(CODEBLOCKS)/../include/tinyxml" />
-			<Add directory="$(CODEBLOCKS)/../sdk/wxscintilla/include" />
-			<Add directory="$(CODEBLOCKS)/../src" />
+			<Add directory="../../../include" />
+			<Add directory="../../../include/tinyxml" />
+			<Add directory="../../../sdk/wxscintilla/include" />
+			<Add directory="../../../src" />
 			<Add directory="$(#WX32_64.include)" />
 			<Add directory="$(#WX32_64.lib)/gcc_dll$(WX_CFG)/msw$(WX_SUFFIX)" />
 			<Add directory="." />
@@ -63,14 +63,14 @@
 			<Add option="-mthreads" />
 			<Add library="wxmsw$(WX_VERSION)$(WX_SUFFIX)" />
 			<Add library="codeblocks" />
-			<Add directory="$(CODEBLOCKS)/../devel32_64" />
+			<Add directory="../../../devel32_64" />
 			<Add directory="$(#WX32_64.lib)/gcc_dll$(WX_CFG)" />
 		</Linker>
 		<ExtraCommands>
-			<Add after='cmd /c if not exist $(CODEBLOCKS)\..\devel32_64\share\codeblocks\plugins mkdir $(CODEBLOCKS)\..\devel32_64\share\codeblocks\plugins&quot;' />
+			<Add after='cmd /c if not exist ..\..\..\devel32_64\share\codeblocks\plugins mkdir ..\..\..\devel32_64\share\codeblocks\plugins&quot;' />
 			<Add after='cmd /c if exist .\codesnippets.zip del .\codesnippets.zip&quot;' />
 			<Add after="zip -jq9 .\codesnippets.zip  manifest.xml" />
-			<Add after='cmd /c copy /Y .\codesnippets.zip $(CODEBLOCKS)\..\devel32_64\share\CodeBlocks\clangd_client.zip&quot;' />
+			<Add after='cmd /c copy /Y .\codesnippets.zip ..\..\..\devel32_64\share\CodeBlocks\clangd_client.zip&quot;' />
 			<Mode after="always" />
 		</ExtraCommands>
 		<Unit filename="Makefile.am" />
