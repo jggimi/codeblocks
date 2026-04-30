@@ -753,7 +753,9 @@ void cbDragScroll::Attach(wxWindow *pWin)
     pWin->Bind(wxEVT_MIDDLE_DOWN,&MouseEventsHandler::OnMouseMiddleDown,thisEvtHndlr );
     pWin->Bind(wxEVT_RIGHT_DOWN, &MouseEventsHandler::OnMouseRightDown, thisEvtHndlr);
     pWin->Bind(wxEVT_RIGHT_UP,   &MouseEventsHandler::OnMouseRightUp, thisEvtHndlr);
+    #if defined(__WXMSW__)
     pWin->Bind(wxEVT_TREE_ITEM_RIGHT_CLICK, &MouseEventsHandler::OnTreeMouseRightUp, thisEvtHndlr);
+    #endif
     pWin->Bind(wxEVT_MOTION,     &MouseEventsHandler::OnMouseMotion, thisEvtHndlr);
     pWin->Bind(wxEVT_ENTER_WINDOW, &MouseEventsHandler::OnMouseEnterWindow, thisEvtHndlr);
     pWin->Bind(wxEVT_LEAVE_WINDOW, &MouseEventsHandler::OnMouseLeaveWindow, thisEvtHndlr);
@@ -868,7 +870,9 @@ void cbDragScroll::Detach(wxWindow* pWindow)
             pWindow->Unbind(wxEVT_MIDDLE_UP,&MouseEventsHandler::OnMouseMiddleUp,thisEvtHandler );
             pWindow->Unbind(wxEVT_RIGHT_DOWN,&MouseEventsHandler::OnMouseRightDown,thisEvtHandler );
             pWindow->Unbind(wxEVT_RIGHT_UP,&MouseEventsHandler::OnMouseRightUp,thisEvtHandler );
+            #if defined(__WXMSW__)
             pWindow->Unbind(wxEVT_TREE_ITEM_RIGHT_CLICK, &MouseEventsHandler::OnTreeMouseRightUp, thisEvtHandler);
+            #endif
             pWindow->Unbind(wxEVT_MOTION,&MouseEventsHandler::OnMouseMotion,thisEvtHandler );
             pWindow->Unbind(wxEVT_ENTER_WINDOW,&MouseEventsHandler::OnMouseLeaveWindow,thisEvtHandler );
             pWindow->Unbind(wxEVT_LEAVE_WINDOW,&MouseEventsHandler::OnMouseLeaveWindow,thisEvtHandler );
