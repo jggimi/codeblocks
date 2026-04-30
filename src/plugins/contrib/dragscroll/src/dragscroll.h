@@ -300,12 +300,13 @@ private:
     DECLARE_EVENT_TABLE()
 };
 //----------------------------------------
-#define VERSION "1.4.18 26/4/16"
+#define VERSION "1.4.19 26/4/30"
 //----------------------------------------
 //versions
 // ----------------------------------------------------------------------------
 //  Modification History
 // ----------------------------------------------------------------------------
+// 1.4.19   2026/04/30 Fix crash in linux onTimerEvent() using garbage eventObject
 // 1.4.18   2026/04/16 Refactoring and cleanup with -Wextra
 // 1.4.17   2026/04/10 Add event.Skip() to OnMouseRightUp() solves missing context menus
 // 1.4.16   2026/04/01 Hunting cause of the missing first right mouse-down/up response

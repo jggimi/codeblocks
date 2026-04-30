@@ -36,6 +36,7 @@ void MouseEventsHandler::OnTimerEvent(wxTimerEvent& event)
     {
         LOGIT("%s RightMouse did NOT scroll %p", __FUNCTION__, event.GetEventObject());
 
+        m_pEventObject = event.GetEventObject(); // save event object for timer event (2026/04/30)
         //-unused- wxWindow* pWindow = dynamic_cast<wxWindow*>(event.GetEventObject());
         wxListCtrl* pListCtrl = dynamic_cast<wxListCtrl*>(m_pEventObject);
         wxTreeCtrl* pTreeCtrl = dynamic_cast<wxTreeCtrl*>(m_pEventObject);
