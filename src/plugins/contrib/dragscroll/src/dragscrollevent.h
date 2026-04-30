@@ -57,11 +57,11 @@ private:
 
 typedef void (wxEvtHandler::*DragScrollEventFunction)(DragScrollEvent&);
 
+wxDECLARE_EVENT(wxEVT_DRAGSCROLL_EVENT, DragScrollEvent); // (ph 26/04/14)
 
-extern const wxEventType wxEVT_DRAGSCROLL_EVENT;
-#define EVT_DRAGSCROLL_EVENT(id, fn) \
-	DECLARE_EVENT_TABLE_ENTRY(wxEVT_DRAGSCROLL_EVENT, id, -1, \
-	(wxObjectEventFunction)(wxEventFunction) (DragScrollEventFunction) & fn,(wxObject *) NULL ),
+// Optional: If you still want to support the old Event Table style (BEGIN_EVENT_TABLE)
+//#define EVT_DRAGSCROLL_EVENT(id, fn) \ <-- continuation
+//    wx__DECLARE_EVT1(wxEVT_DRAGSCROLL_EVENT, id, DragScrollEventHandler(fn))
 
 #endif // DRAGSCROLL_EVENT_H
 

@@ -11,15 +11,15 @@ libdragscroll_la_LDFLAGS = @MODULE_SHARED_LDFLAGS@ -version-info 0:1:0 -no-undef
 
 libdragscroll_la_LIBADD = ../../../sdk/libcodeblocks.la $(WX_LIBS)
 
-libdragscroll_la_SOURCES = dragscroll.cpp \
-			dragscrollcfg.cpp \
-			dragscrollevent.cpp \
-			linux_functions.cpp
+libdragscroll_la_SOURCES = src/dragscroll.cpp \
+			src/dragscrollcfg.cpp \
+			src/dragscrollevent.cpp \
+			src/linux_functions.cpp
 
-noinst_HEADERS = dragscroll.h \
-			dragscrollcfg.h \
-			dragscrollevent.h \
-			linux_functions.h
+noinst_HEADERS = src/dragscroll.h \
+			src/dragscrollcfg.h \
+			src/dragscrollevent.h \
+			src/linux_functions.h
 
 EXTRA_DIST = $(srcdir)/*.cbp \
 		manifest.xml
@@ -28,4 +28,4 @@ pkgdata_DATA = dragscroll.zip
 CLEANFILES = $(pkgdata_DATA)
 
 dragscroll.zip: manifest.xml
-	PWD=`pwd` cd $(srcdir) && zip $(PWD)/dragscroll.zip manifest.xml > /dev/null
+	PWD=`pwd` cd $(srcdir) && zip $(PWD)/dragscroll.zip src/manifest.xml > /dev/null

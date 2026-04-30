@@ -17,8 +17,7 @@
 
 IMPLEMENT_DYNAMIC_CLASS(DragScrollEvent, wxCommandEvent)
 
-const wxEventType wxEVT_DRAGSCROLL_EVENT = wxNewEventType();
-
+wxDEFINE_EVENT(wxEVT_DRAGSCROLL_EVENT, DragScrollEvent); // (ph 26/04/14)
 // ----------------------------------------------------------------------------
 DragScrollEvent::DragScrollEvent(wxEventType commandType, int id)
 // ----------------------------------------------------------------------------

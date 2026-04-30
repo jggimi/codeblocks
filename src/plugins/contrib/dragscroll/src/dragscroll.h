@@ -159,7 +159,8 @@ private:
     void OnStartShutdown(CodeBlocksEvent& event);
     //-void UpdateAllLoggerWindowFonts(const int pointSize);
 
-    void OnDragScrollEvent_Dispatcher(wxCommandEvent& event );
+    //void OnDragScrollEvent_Dispatcher(DragScrollEvent& event );
+    void OnDragScrollEvent_Dispatcher(wxCommandEvent& event );   // (ph 26/04/14)
     void OnDragScrollEventAddWindow(wxCommandEvent& event );
     void OnDragScrollEventRemoveWindow(wxCommandEvent& event );
     void OnDragScrollEventRescan(wxCommandEvent& event );
@@ -172,8 +173,8 @@ private:
     wxWindow* winExists(wxWindow *parent);
     wxWindow* FindWindowRecursively(const wxWindow* parent, const wxWindow* handle);
     wxString  FindAppPath(const wxString& argv0, const wxString& cwd, const wxString& appVariableName);
-    void      OnWindowOpen(wxEvent& event);
-    void      OnWindowClose(wxEvent& event);
+    void      OnWindowOpen(wxWindowCreateEvent& event);
+    void      OnWindowClose(wxWindowDestroyEvent& event);
 
     MouseEventsHandler* GetMouseEventsHandler();
     void      CleanUpWindowPointerArray();
@@ -236,6 +237,8 @@ public:
     void OnMouseMiddleUp(wxMouseEvent& event);
     void OnMouseRightDown(wxMouseEvent& event);
     void OnMouseRightUp(wxMouseEvent& event);
+    void OnTreeMouseRightUp(wxTreeEvent& event); // (ph 26/04/14)
+    void OnTreeItemMenu(wxContextMenuEvent& event); // (ph 26/04/16)
     void OnMouseMotion(wxMouseEvent& event);
     void OnMouseEnterWindow(wxMouseEvent& event);
     void OnMouseLeaveWindow(wxMouseEvent& event);
@@ -297,12 +300,13 @@ private:
     DECLARE_EVENT_TABLE()
 };
 //----------------------------------------
-#define VERSION "1.4.17 26/4/10"
+#define VERSION "1.4.18 26/4/16"
 //----------------------------------------
 //versions
 // ----------------------------------------------------------------------------
 //  Modification History
 // ----------------------------------------------------------------------------
+// 1.4.18   2026/04/16 Refactoring and cleanup with -Wextra
 // 1.4.17   2026/04/10 Add event.Skip() to OnMouseRightUp() solves missing context menus
 // 1.4.16   2026/04/01 Hunting cause of the missing first right mouse-down/up response
 //              Found unitialized m_dragging boolean set to random int.

@@ -78,7 +78,7 @@ BEGIN_EVENT_TABLE(cbDragScroll, cbPlugin)
 	// End Configuration event
     EVT_UPDATE_UI(ID_DLG_DONE, cbDragScroll::OnDoConfigRequests)
     // DragScroll Event types
-    EVT_DRAGSCROLL_EVENT( wxID_ANY, cbDragScroll::OnDragScrollEvent_Dispatcher )
+    //EVT_DRAGSCROLL_EVENT( wxID_ANY, cbDragScroll::OnDragScrollEvent_Dispatcher )
 
 END_EVENT_TABLE()
 // ----------------------------------------------------------------------------
@@ -245,41 +245,29 @@ void cbDragScroll::OnAttach()
     GetZoomWindowsArraysFrom( m_ZoomWindowIds, m_ZoomFontSizes );
 
     // Catch creation of windows
-    Connect( wxEVT_CREATE,
-        (wxObjectEventFunction) (wxEventFunction)
-        (wxCommandEventFunction) &cbDragScroll::OnWindowOpen);
-
+    Bind(wxEVT_CREATE, &cbDragScroll::OnWindowOpen, this);
     // Catch Destroyed windows
-    Connect( wxEVT_DESTROY,
-        (wxObjectEventFunction) (wxEventFunction)
-        (wxCommandEventFunction) &cbDragScroll::OnWindowClose);
-
-    // Catch External requests to support a window //(2021/06/25)
-    Connect(idDragScrollAddWindow, wxEVT_COMMAND_MENU_SELECTED,
-        (wxObjectEventFunction) (wxEventFunction)
-        (wxCommandEventFunction) &cbDragScroll::OnDragScrollEvent_Dispatcher);
-    Connect(idDragScrollRemoveWindow, wxEVT_COMMAND_MENU_SELECTED,
-        (wxObjectEventFunction) (wxEventFunction)
-        (wxCommandEventFunction) &cbDragScroll::OnDragScrollEvent_Dispatcher);
-    Connect(idDragScrollRescan, wxEVT_COMMAND_MENU_SELECTED,
-        (wxObjectEventFunction) (wxEventFunction)
-        (wxCommandEventFunction) &cbDragScroll::OnDragScrollEvent_Dispatcher);
-    Connect(idDragScrollReadConfig, wxEVT_COMMAND_MENU_SELECTED,
-        (wxObjectEventFunction) (wxEventFunction)
-        (wxCommandEventFunction) &cbDragScroll::OnDragScrollEvent_Dispatcher);
-    Connect(idDragScrollInvokeConfig, wxEVT_COMMAND_MENU_SELECTED,
-        (wxObjectEventFunction) (wxEventFunction)
-        (wxCommandEventFunction) &cbDragScroll::OnDragScrollEvent_Dispatcher);
+    Bind(wxEVT_DESTROY, &cbDragScroll::OnWindowClose, this);
+    // Catch External requests to support a window dragging
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &cbDragScroll::OnDragScrollEvent_Dispatcher, this, idDragScrollAddWindow);
+    // catch External request to remove its drag window support
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &cbDragScroll::OnDragScrollEvent_Dispatcher, this, idDragScrollRemoveWindow);
+    // Rescan windows event to refresh the array of supported windows
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &cbDragScroll::OnDragScrollEvent_Dispatcher, this, idDragScrollRescan);
+    // Reread the configuration settings
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &cbDragScroll::OnDragScrollEvent_Dispatcher,this, idDragScrollReadConfig );
+    // Invoke/Display the configuration dialog
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &cbDragScroll::OnDragScrollEvent_Dispatcher, this, idDragScrollInvokeConfig);
 
     // Set current plugin version
 	PluginInfo* pInfo = (PluginInfo*)(Manager::Get()->GetPluginManager()->GetPluginInfo(this));
 	pInfo->version = wxT(VERSION);
 	// Allow other plugins to find our Event ID
-	m_DragScrollFirstId = wxString::Format( _T("%d"), wxEVT_DRAGSCROLL_EVENT);
+	m_DragScrollFirstId = wxString::Format( _T("%d"), XRCID("idDragScrollEvent")); // (ph 26/04/14)
 	pInfo->authorWebsite = m_DragScrollFirstId;
 
 	#if defined(LOGGING)
-	LOGIT( _T("DragScroll EventTypes[%d]"), wxEVT_DRAGSCROLL_EVENT);
+	LOGIT( _T("DragScroll EventTypes[%d]"), m_DragScrollFirstID);   // (ph 26/04/14)
 	#endif
 
 	// register event sink
@@ -301,31 +289,14 @@ void cbDragScroll::OnRelease(bool /*appShutDown*/)
 
 	// Remove all Mouse event handlers
     // Disconnect from creation of windows //(2021/06/25)
-    Disconnect( wxEVT_CREATE,
-        (wxObjectEventFunction) (wxEventFunction)
-        (wxCommandEventFunction) &cbDragScroll::OnWindowOpen);
 
-    // Disonnect from Destroyed windows
-    Disconnect( wxEVT_DESTROY,
-        (wxObjectEventFunction) (wxEventFunction)
-        (wxCommandEventFunction) &cbDragScroll::OnWindowClose);
-
-    // Disconnect from External requests to support a window
-    Disconnect(idDragScrollAddWindow, wxEVT_COMMAND_MENU_SELECTED,
-        (wxObjectEventFunction) (wxEventFunction)
-        (wxCommandEventFunction) &cbDragScroll::OnDragScrollEvent_Dispatcher);
-    Disconnect(idDragScrollRemoveWindow, wxEVT_COMMAND_MENU_SELECTED,
-        (wxObjectEventFunction) (wxEventFunction)
-        (wxCommandEventFunction) &cbDragScroll::OnDragScrollEvent_Dispatcher);
-    Disconnect(idDragScrollRescan, wxEVT_COMMAND_MENU_SELECTED,
-        (wxObjectEventFunction) (wxEventFunction)
-        (wxCommandEventFunction) &cbDragScroll::OnDragScrollEvent_Dispatcher);
-    Disconnect(idDragScrollReadConfig, wxEVT_COMMAND_MENU_SELECTED,
-        (wxObjectEventFunction) (wxEventFunction)
-        (wxCommandEventFunction) &cbDragScroll::OnDragScrollEvent_Dispatcher);
-    Disconnect(idDragScrollInvokeConfig, wxEVT_COMMAND_MENU_SELECTED,
-        (wxObjectEventFunction) (wxEventFunction)
-        (wxCommandEventFunction) &cbDragScroll::OnDragScrollEvent_Dispatcher);
+    Unbind(wxEVT_CREATE, &cbDragScroll::OnWindowOpen, this);
+    Unbind(wxEVT_DESTROY, &cbDragScroll::OnWindowClose, this);
+    Unbind(wxEVT_COMMAND_MENU_SELECTED, &cbDragScroll::OnDragScrollEvent_Dispatcher, this, idDragScrollAddWindow);
+    Unbind(wxEVT_COMMAND_MENU_SELECTED, &cbDragScroll::OnDragScrollEvent_Dispatcher, this, idDragScrollRemoveWindow);
+    Unbind(wxEVT_COMMAND_MENU_SELECTED, &cbDragScroll::OnDragScrollEvent_Dispatcher, this, idDragScrollRescan);
+    Unbind(wxEVT_COMMAND_MENU_SELECTED, &cbDragScroll::OnDragScrollEvent_Dispatcher,this, idDragScrollReadConfig );
+    Unbind(wxEVT_COMMAND_MENU_SELECTED, &cbDragScroll::OnDragScrollEvent_Dispatcher, this, idDragScrollInvokeConfig);
 
 	// Disconnect all Mouse event handlers
 	DetachAll();
@@ -692,7 +663,7 @@ void cbDragScroll::OnDragScrollTestRescan(DragScrollEvent& /*event*/ )
 // ----------------------------------------------------------------------------
 {
     #if defined(LOGGING)
-    LOGIT( _T("TESING DragScrollevent"));
+    LOGIT( _T("TESTING DragScrollevent"));
     #endif
 }
 // ----------------------------------------------------------------------------
@@ -778,46 +749,16 @@ void cbDragScroll::Attach(wxWindow *pWin)
 
     MouseEventsHandler* thisEvtHndlr = GetMouseEventsHandler();
 
-    pWin->Connect(wxEVT_MIDDLE_DOWN,
-                    (wxObjectEventFunction)(wxEventFunction)
-                    (wxMouseEventFunction)&MouseEventsHandler::OnMouseMiddleDown,
-                     NULL, thisEvtHndlr);
-    pWin->Connect(wxEVT_MIDDLE_UP,
-                    (wxObjectEventFunction)(wxEventFunction)
-                    (wxMouseEventFunction)&MouseEventsHandler::OnMouseMiddleUp,
-                     NULL, thisEvtHndlr);
-    pWin->Connect(wxEVT_RIGHT_DOWN,
-                    (wxObjectEventFunction)(wxEventFunction)
-                    (wxMouseEventFunction)&MouseEventsHandler::OnMouseRightDown,
-                     NULL, thisEvtHndlr);
-    pWin->Connect(wxEVT_RIGHT_UP,
-                    (wxObjectEventFunction)(wxEventFunction)
-                    (wxMouseEventFunction)&MouseEventsHandler::OnMouseRightUp,
-                     NULL, thisEvtHndlr);
-    pWin->Connect(wxEVT_TREE_ITEM_RIGHT_CLICK,
-                    (wxObjectEventFunction)(wxEventFunction) //(ph 2024/09/05)
-                    (wxMouseEventFunction)&MouseEventsHandler::OnMouseRightUp,
-                     NULL, thisEvtHndlr);
-    pWin->Connect(wxEVT_MOTION,
-                    (wxObjectEventFunction)(wxEventFunction)
-                    (wxMouseEventFunction)&MouseEventsHandler::OnMouseMotion,
-                     NULL, thisEvtHndlr);
-    pWin->Connect(wxEVT_ENTER_WINDOW,
-                    (wxObjectEventFunction)(wxEventFunction)
-                    (wxMouseEventFunction)&MouseEventsHandler::OnMouseEnterWindow,
-                     NULL, thisEvtHndlr);
-    pWin->Connect(wxEVT_LEAVE_WINDOW,
-                    (wxObjectEventFunction)(wxEventFunction)
-                    (wxMouseEventFunction)&MouseEventsHandler::OnMouseLeaveWindow,
-                     NULL, thisEvtHndlr);
-    pWin->Connect(wxEVT_MOUSEWHEEL,
-                    (wxObjectEventFunction)(wxEventFunction)
-                    (wxMouseEventFunction)&cbDragScroll::OnMouseWheel,
-                     NULL, this);
-    pWin->Connect(wxEVT_MOUSE_CAPTURE_LOST,
-                    (wxObjectEventFunction)(wxEventFunction)
-                    (wxMouseEventFunction)&MouseEventsHandler::OnMouseCaptureLost,
-                     NULL, this);
+    pWin->Bind(wxEVT_MIDDLE_UP, &MouseEventsHandler::OnMouseMiddleUp, thisEvtHndlr);
+    pWin->Bind(wxEVT_MIDDLE_DOWN,&MouseEventsHandler::OnMouseMiddleDown,thisEvtHndlr );
+    pWin->Bind(wxEVT_RIGHT_DOWN, &MouseEventsHandler::OnMouseRightDown, thisEvtHndlr);
+    pWin->Bind(wxEVT_RIGHT_UP,   &MouseEventsHandler::OnMouseRightUp, thisEvtHndlr);
+    pWin->Bind(wxEVT_TREE_ITEM_RIGHT_CLICK, &MouseEventsHandler::OnTreeMouseRightUp, thisEvtHndlr);
+    pWin->Bind(wxEVT_MOTION,     &MouseEventsHandler::OnMouseMotion, thisEvtHndlr);
+    pWin->Bind(wxEVT_ENTER_WINDOW, &MouseEventsHandler::OnMouseEnterWindow, thisEvtHndlr);
+    pWin->Bind(wxEVT_LEAVE_WINDOW, &MouseEventsHandler::OnMouseLeaveWindow, thisEvtHndlr);
+    pWin->Bind(wxEVT_MOUSEWHEEL, &cbDragScroll::OnMouseWheel, this);
+    //-pWin->Bind(wxEVT_CONTEXT_MENU, &MouseEventsHandler::OnTreeItemMenu, thisEvtHndlr);
 
     #if defined(LOGGING)
      LOGIT(_T("cbDS:Attach Window:%p Handler:%p"), pWin,thisEvtHndlr);
@@ -921,47 +862,25 @@ void cbDragScroll::Detach(wxWindow* pWindow)
                     pWindow, thisEvtHandler);
             #endif
             return;
-	    } else {
-            pWindow->Disconnect(wxEVT_MIDDLE_DOWN,
-                            (wxObjectEventFunction)(wxEventFunction)
-                            (wxMouseEventFunction)&MouseEventsHandler::OnMouseMiddleDown,
-                             NULL, thisEvtHandler);
-            pWindow->Disconnect(wxEVT_MIDDLE_UP,
-                            (wxObjectEventFunction)(wxEventFunction)
-                            (wxMouseEventFunction)&MouseEventsHandler::OnMouseMiddleUp,
-                             NULL, thisEvtHandler);
-            pWindow->Disconnect(wxEVT_RIGHT_DOWN,
-                            (wxObjectEventFunction)(wxEventFunction)
-                            (wxMouseEventFunction)&MouseEventsHandler::OnMouseRightDown,
-                             NULL, thisEvtHandler);
-            pWindow->Disconnect(wxEVT_RIGHT_UP,
-                            (wxObjectEventFunction)(wxEventFunction)
-                            (wxMouseEventFunction)&MouseEventsHandler::OnMouseRightUp,
-                             NULL, thisEvtHandler);
-            pWindow->Disconnect(wxEVT_MOTION,
-                            (wxObjectEventFunction)(wxEventFunction)
-                            (wxMouseEventFunction)&MouseEventsHandler::OnMouseMotion,
-                             NULL, thisEvtHandler);
-            pWindow->Disconnect(wxEVT_ENTER_WINDOW,
-                            (wxObjectEventFunction)(wxEventFunction)
-                            (wxMouseEventFunction)&MouseEventsHandler::OnMouseEnterWindow,
-                             NULL, thisEvtHandler);
-            pWindow->Disconnect(wxEVT_LEAVE_WINDOW,
-                            (wxObjectEventFunction)(wxEventFunction)
-                            (wxMouseEventFunction)&MouseEventsHandler::OnMouseLeaveWindow,
-                             NULL, thisEvtHandler);
-            pWindow->Disconnect(wxEVT_MOUSEWHEEL,
-                            (wxObjectEventFunction)(wxEventFunction)
-                            (wxMouseEventFunction)&cbDragScroll::OnMouseWheel,
-                             NULL, this);
-
-        }//else
+	    } else
+	    {
+            pWindow->Unbind(wxEVT_MIDDLE_DOWN,&MouseEventsHandler::OnMouseMiddleUp,thisEvtHandler );
+            pWindow->Unbind(wxEVT_MIDDLE_UP,&MouseEventsHandler::OnMouseMiddleUp,thisEvtHandler );
+            pWindow->Unbind(wxEVT_RIGHT_DOWN,&MouseEventsHandler::OnMouseRightDown,thisEvtHandler );
+            pWindow->Unbind(wxEVT_RIGHT_UP,&MouseEventsHandler::OnMouseRightUp,thisEvtHandler );
+            pWindow->Unbind(wxEVT_TREE_ITEM_RIGHT_CLICK, &MouseEventsHandler::OnTreeMouseRightUp, thisEvtHandler);
+            pWindow->Unbind(wxEVT_MOTION,&MouseEventsHandler::OnMouseMotion,thisEvtHandler );
+            pWindow->Unbind(wxEVT_ENTER_WINDOW,&MouseEventsHandler::OnMouseLeaveWindow,thisEvtHandler );
+            pWindow->Unbind(wxEVT_LEAVE_WINDOW,&MouseEventsHandler::OnMouseLeaveWindow,thisEvtHandler );
+            pWindow->Unbind(wxEVT_MOUSEWHEEL,&cbDragScroll::OnMouseWheel, this );
+            //-pWindow->Unbind(wxEVT_MOUSE_CAPTURE_LOST, &MouseEventsHandler::OnMouseCaptureLost, thisEvtHandler);
+        }//endelse
 
         #if defined(LOGGING)
          LOGIT(_T("Detach: Editor:%p EvtHndlr: %p"),pWindow,thisEvtHandler);
         #endif
     }//if (pWindow..
-}//Detach
+}//end Detach
 // ----------------------------------------------------------------------------
 void cbDragScroll::DetachAll()
 // ----------------------------------------------------------------------------
@@ -1210,7 +1129,7 @@ void cbDragScroll::OnStartShutdown(CodeBlocksEvent& /*event*/)
     UpdateConfigFile();
 }
 // ----------------------------------------------------------------------------
-void cbDragScroll::OnWindowOpen(wxEvent& event)
+void cbDragScroll::OnWindowOpen(wxWindowCreateEvent& event)
 // ----------------------------------------------------------------------------
 {
     // wxEVT_CREATE entry
@@ -1280,7 +1199,7 @@ void cbDragScroll::OnWindowOpen(wxEvent& event)
     event.Skip();
 }//OnWindowOpen
 // ----------------------------------------------------------------------------
-void cbDragScroll::OnWindowClose(wxEvent& event)
+void cbDragScroll::OnWindowClose(wxWindowDestroyEvent& event)
 // ----------------------------------------------------------------------------
 {
     // wxEVT_DESTROY entry
@@ -1642,23 +1561,27 @@ void MouseEventsHandler::OnMouseRightDown(wxMouseEvent& event) /// Windows only
     /// See linux_functions.cpp for the Linux version of this funciton
 
     // **Debugging** //(ph 2024/09/04)
-//    wxWindow* pFocusedWin = wxWindow::FindFocus();
-//    wxWindow* pThisWindow = dynamic_cast<wxWindow*>(event.GetEventObject());
-//    if (pThisWindow)
-//       wxMenu* popupMenu = pThisWindow->GetPopupMenu();
+    //    wxWindow* pFocusedWin = wxWindow::FindFocus();
+    //    wxWindow* pThisWindow = dynamic_cast<wxWindow*>(event.GetEventObject());
+    //    if (pThisWindow)
+    //       wxMenu* popupMenu = pThisWindow->GetPopupMenu();
 
 
     m_didScroll = false;    //initialize // (ph 25/10/09)
 
     LOGIT("\n%s entered %p", __FUNCTION__, event.GetEventObject());
     if (m_ignoreThisEvent)
-        { m_ignoreThisEvent--; return; }
+        { m_ignoreThisEvent--;
+        return; }
 
     if ( (not event.GetEventObject()->IsKindOf(CLASSINFO(wxWindow)))
         or (not pDSplugin->IsAttachedTo((wxWindow*)event.GetEventObject())) )
-        { event.Skip(); return; }
+        { event.Skip();
+          return; }
 
     wxWindow* pWindow = dynamic_cast<wxWindow*>(event.GetEventObject());
+    if (not pWindow)
+        {event.Skip(); return;} // (ph 26/04/16)
 
     // initialize vars used in MouseUp event // (ph 25/10/20)
     // use wxGetMousePosition() for consistency throught out the code.
@@ -1702,6 +1625,10 @@ void MouseEventsHandler::OnMouseRightDown(wxMouseEvent& event) /// Windows only
     m_didScroll =   false; //initialize
     wxObject* pEvtObject = event.GetEventObject();
 
+    pWindow   = dynamic_cast<wxWindow*>(event.GetEventObject());
+    //wxListCtrl* pListCtrl = dynamic_cast<wxListCtrl*>(event.GetEventObject()); unused // (ph 26/04/30)
+    //wxTreeCtrl* pTreeCtrl = dynamic_cast<wxTreeCtrl*>(event.GetEventObject()); unused // (ph 26/04/30)
+
     // if StyledTextCtrl, remember for later scrolling
     m_pStyledTextCtrl = nullptr;
     if ( ((wxWindow*)pEvtObject)->GetName() == _T("SCIwindow"))
@@ -1710,14 +1637,26 @@ void MouseEventsHandler::OnMouseRightDown(wxMouseEvent& event) /// Windows only
         // remember the caret position so it can be restored after scrolling
         m_lastCaretPosition = m_pStyledTextCtrl->GetCurrentPos();
     }
-    else
-    {
-        // not a scintilla editor
-        //LOGIT("OnMouseRightDown: window is NOT wxStyledTextCtrl");
-    }
+    //else if (pTreeCtrl)
+    //{
+    //    /**Debugging**/
+    //    wxString title = pTreeCtrl->GetLabel();
+    //    title = pTreeCtrl->GetName();
+    //}
+    //else if (pListCtrl)
+    //{
+    //    /**Debugging**/
+    //    wxString title = pListCtrl->GetLabel();
+    //    title = pListCtrl->GetName();
+    //
+    //}
+
+    event.Skip();
     return;
 
+
 }//end OnMouseRightDown
+
 // Simulate a right mouse button down event at a specific position
 // ----------------------------------------------------------------------------
 void MouseEventsHandler::SimulateRightMouseDown(wxWindow* pWindow, const wxPoint& pos)
@@ -1726,6 +1665,8 @@ void MouseEventsHandler::SimulateRightMouseDown(wxWindow* pWindow, const wxPoint
     // Simulate a RightMouseDown by sending a context menu event
 
     LOGIT( _T("%s %p %d %d"), __FUNCTION__, pWindow, pos.x, pos.y);
+
+    wxUnusedVar(pos);
 
     // Incomming pos is client position
     // wxEVT_CONTEXT_MENU needs screen position, not client position
@@ -1740,20 +1681,50 @@ void MouseEventsHandler::SimulateRightMouseDown(wxWindow* pWindow, const wxPoint
     pWindow->GetEventHandler()->ProcessEvent(contextEvt);
 }
 // ----------------------------------------------------------------------------
+void MouseEventsHandler::OnTreeItemMenu(wxContextMenuEvent& event) /// Windows only // (ph 26/04/14)
+// ----------------------------------------------------------------------------
+{
+    event.Skip();
+    // This event proved to be unuseful
+    //This is arriving after the context popup has been dismissed.
+}
+// ----------------------------------------------------------------------------
+void MouseEventsHandler::OnTreeMouseRightUp(wxTreeEvent& event) /// Windows only // (ph 26/04/14)
+// ----------------------------------------------------------------------------
+{
+    // Avoid the context menu popup if the user used the mouse for scrolling.
+    // Translate this tree event to a mouse event to check if user
+    // scrolled a tree structure. If no scrolling occured
+    // pass the event on to others.
+
+    wxMouseEvent mouseEvt(wxEVT_RIGHT_UP);
+    mouseEvt.SetEventObject(event.GetEventObject());
+
+    OnMouseRightUp(mouseEvt);
+
+    // Own the the Right mouse up key if we scrolled.// (ph 26/04/16)
+    if (m_didScroll) {
+        return;
+    }
+
+    event.Skip();
+    return;
+}
+// ----------------------------------------------------------------------------
 void MouseEventsHandler::OnMouseRightUp(wxMouseEvent& event) /// Windows only
 // ----------------------------------------------------------------------------
 {
     // See linux_functions.cpp for the Linux version of this functions
 
-    // Re-issue the mouseDown context for the one we ate while waiting
-    // for mouseMotion to tell us if user was really going to scroll or not.
+    // If the user scrolled with the mouse, own the event.
 
     LOGIT("%s entered", __FUNCTION__);
     assert(m_ignoreThisEvent >= 0);
-    // If this code issued the last mouse right-up, let it execute.
     if (m_ignoreThisEvent)
     {
         LOGIT( _T("[%s %s]"), __FUNCTION__, "ignored event");
+
+        // Sanity checks
         wxWindow* pWindow = dynamic_cast<wxWindow*>(event.GetEventObject());
         if (pWindow)
         {
@@ -1766,72 +1737,24 @@ void MouseEventsHandler::OnMouseRightUp(wxMouseEvent& event) /// Windows only
     }
 
     if ( not event.GetEventObject()->IsKindOf(CLASSINFO(wxWindow)))
-    {event.Skip(); return;}
+        {event.Skip(); return;}
 
     if (not pDSplugin->IsAttachedTo((wxWindow*)event.GetEventObject()))
         { event.Skip(); return; }
 
-    wxWindow*   pWindow   = dynamic_cast<wxWindow*>(event.GetEventObject());
-    //unused wxListCtrl* pListCtrl = dynamic_cast<wxListCtrl*>(event.GetEventObject());
-    wxTreeCtrl* pTreeCtrl = dynamic_cast<wxTreeCtrl*>(event.GetEventObject());
-
-    if ( (not m_didScroll) and (not m_dragging) ) // set in OnMouseMotion() //(ph 2024/09/04)
+    // check the flags set in OnMouseMotion()
+    if ( (not m_didScroll) and (not m_dragging) )
     {
-        LOGIT("%s RightMouse did NOT scroll %p", __FUNCTION__, event.GetEventObject());
-        // We need to replace the mouse down/up context menu we've already eaten.
+        event.Skip(); return; // (ph 26/04/16)
+    }
 
-        // If a cb wxTreeCtrl, it needs a wxEVT_TREE_ITEM_RIGHT_CLICK event
-        // to replace the one we captured.
-        if (pTreeCtrl)
-        {
-            bool isTreeMultiSelection = pTreeCtrl->GetWindowStyleFlag() & wxTR_MULTIPLE;
-            // The event needs a tree itemId
-            wxPoint pt = wxGetMousePosition();  // get the mouse position
-            pt = pTreeCtrl->ScreenToClient(pt); // convert to client coordinates
-            wxTreeItemId itemId = pTreeCtrl->HitTest(pt);
-            if (not itemId.IsOk())
-            {   event.Skip(); return;}
-
-            // Clear all selections for non-multi selection tree
-            if (not isTreeMultiSelection)
-                pTreeCtrl->UnselectAll();
-
-            bool ok = SelectItemUnderCursor(pTreeCtrl);
-            if (not ok)
-                {event.Skip(); return;}
-
-            // Re-issue the tree right mouse down click that
-            // was captured when waiting for possible scrolling to occur.
-            wxTreeEvent treeEvent(wxEVT_TREE_ITEM_RIGHT_CLICK, pTreeCtrl, itemId);
-            treeEvent.SetEventObject(pTreeCtrl);
-            wxKeyEvent keyEvent(wxEVT_KEY_DOWN);
-            keyEvent.m_keyCode = WXK_RBUTTON;
-            treeEvent.SetKeyEvent(keyEvent);
-            treeEvent.SetPoint(wxPoint(m_firstMouseX, m_firstMouseY));
-            // add the event, and ignore the next mouse up (avoids loops)
-            m_ignoreThisEvent++;    // let next mouse up event pass unmolested
-            pTreeCtrl->GetEventHandler()->AddPendingEvent(treeEvent);
-            m_popupActive = true; // Tell DragScroll not to molest the next mouse down
-        }//endif pTreeCtrl
-
-        // For a non-tree control just re-issue the context menu request
-        if (not pTreeCtrl ) //not TreeCtrl
-        {
-            // Simulate a right-mouse-down/up via a context event
-            CallAfter(&MouseEventsHandler::SimulateRightMouseDown, pWindow, wxPoint(m_firstMouseX,m_firstMouseY));
-            m_popupActive = true;
-        }
-
-        m_isScrollKeyValid = false;
-        m_dragging = false;
-        return; //own the event
-    }//endif not scrolling
-
+    // a mouse scroll is done. Clear status
     m_isScrollKeyValid = false;
     m_dragging = false;
 
     return;
 }//end OnMouseRightUp
+
 #endif // __WXMSW__
 
 
