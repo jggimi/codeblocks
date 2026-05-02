@@ -58,7 +58,7 @@
 			<Add directory="$(#WXWIDGETS.lib)\gcc_dll$(#WXWIDGETS.WX_CFG)" />
 		</Linker>
 		<ExtraCommands>
-			<Add after="zip -j9 ..\..\..\devel$(WX_VER)\share\CodeBlocks\DragScroll.zip manifest.xml" />
+			<Add after="zip -j9 ..\..\..\devel$(WX_VER)\share\CodeBlocks\DragScroll.zip src\manifest.xml" />
 			<Mode after="always" />
 		</ExtraCommands>
 		<Unit filename="src/dragscroll.cpp" />
