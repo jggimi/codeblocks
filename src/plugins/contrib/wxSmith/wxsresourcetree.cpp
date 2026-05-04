@@ -51,9 +51,9 @@ namespace
 }
 
 wxsResourceTree* wxsResourceTree::m_Singleton = nullptr;
-int wxsResourceTree::m_RootImageId = LoadImage(_T("/images/wxsmith/wxSmith16.png"));
-int wxsResourceTree::m_ProjectImageId = LoadImage(_T("/images/codeblocks.png"));
-int wxsResourceTree::m_ExternalImageId = LoadImage(_T("/images/wxsmith/deletewidget16.png"));
+int wxsResourceTree::m_RootImageId = LoadImage("images/wxsmith/wxSmith16.png");
+int wxsResourceTree::m_ProjectImageId = LoadImage("images/codeblocks.png");
+int wxsResourceTree::m_ExternalImageId = LoadImage("images/wxsmith/deletewidget16.png");
 
 
 BEGIN_EVENT_TABLE(wxsResourceTree,wxTreeCtrl)
@@ -70,7 +70,23 @@ wxsResourceTree::wxsResourceTree(wxWindow* Parent)
     , m_Data(nullptr)
 {
     m_Singleton = this;
-    SetImageList(&GetGlobalImageList());
+
+    // Load now the delayed loads
+    wxImageList* imagelist = &GetGlobalImageList();
+    for (int i = 0; i < imagelist->GetImageCount(); ++i)
+    {
+        const wxString filename = GetFilenameMap()[i];
+        if (!filename.empty())
+        {
+            const wxBitmap bmp(cbLoadBitmap(ConfigManager::GetDataFolder()+'/'+filename, wxBITMAP_TYPE_ANY));
+            if (bmp.IsOk())
+                imagelist->Replace(i, bmp);
+
+            GetFilenameMap()[i] = wxEmptyString;
+        }
+    }
+
+    SetImageList(imagelist);
     Expand(AddRoot(_("Resources"),m_RootImageId));
 }
 
@@ -145,10 +161,19 @@ wxImageList& wxsResourceTree::GetGlobalImageList()
     return List;
 }
 
+std::map <int, wxString> & wxsResourceTree::GetFilenameMap()
+{
+    static std::map <int, wxString> FilenameMap;
+    return FilenameMap;
+}
+
 int wxsResourceTree::LoadImage(const wxString& FileName)
 {
-    wxBitmap Bmp(cbLoadBitmap(ConfigManager::GetDataFolder()+_T("/")+FileName,wxBITMAP_TYPE_ANY));
-    return InsertImage(Bmp);
+    // Store the filename for delay-loading, now it cannot be done
+    // because wxWidgets image handlers have not been initialized
+    const int index = InsertImage(wxBitmap(wxImage(16, 16)));
+    GetFilenameMap()[index] = FileName;
+    return index;
 }
 
 int wxsResourceTree::InsertImage(const wxBitmap& Bitmap)
@@ -186,6 +211,7 @@ wxArrayInt& wxsResourceTree::GetFreedList()
 
 void wxsResourceTree::FreeImage(int Index)
 {
+    GetFilenameMap()[Index] = wxEmptyString;
     GetFreedList().Add(Index);
 }
 

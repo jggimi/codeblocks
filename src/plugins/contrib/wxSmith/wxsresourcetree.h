@@ -26,6 +26,8 @@
 #include <wx/treectrl.h>
 #include "wxsresourcetreeitemdata.h"
 
+#include <map>
+
 #if defined(__WXMSW__) && defined(LoadImage)
     // Fix Windows winuser.h Header define of LoadImage.
     #undef LoadImage
@@ -116,6 +118,7 @@ class wxsResourceTree: public wxTreeCtrl
         static int m_ProjectImageId;
         static int m_ExternalImageId;
 
+        static std::map <int, wxString> & GetFilenameMap();
         static wxArrayInt& GetFreedList();
 
         void PopupMenu(wxMenu* Menu,wxsResourceTreeItemData* ItemData);
