@@ -682,8 +682,6 @@ bool CodeBlocksApp::OnInit()
         wxHandleFatalExceptions(true);
     #endif
 
-        InitExceptionHandler();
-
         delete wxMessageOutput::Set(new cbMessageOutputNull); // No output. (suppress warnings about unknown options from plugins)
         if (ParseCmdLine(nullptr) == -1) // only abort if '--help' was passed in the command line
         {
@@ -698,6 +696,8 @@ bool CodeBlocksApp::OnInit()
 
         if (!LoadConfig())
             return false;
+
+        InitExceptionHandler();
 
         // set safe-mode appropriately
         PluginManager::SetSafeMode(m_SafeMode);
