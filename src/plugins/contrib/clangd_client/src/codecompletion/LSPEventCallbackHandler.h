@@ -67,12 +67,12 @@ public:
     {
     }
 
-    virtual LSPMethodCallbackEvent* Clone() const wxOVERRIDE
+    virtual LSPMethodCallbackEvent* Clone() const override
     {
         return new LSPMethodCallbackEvent0(*this);
     }
 
-    virtual void Execute(wxCommandEvent& event) wxOVERRIDE
+    virtual void Execute(wxCommandEvent& event) override
     {
         (m_object->*m_method)();
     }
@@ -110,12 +110,12 @@ public:
     {
     }
 
-    virtual LSPMethodCallbackEvent* Clone() const wxOVERRIDE
+    virtual LSPMethodCallbackEvent* Clone() const override
     {
         return new LSPMethodCallbackEvent1(*this);
     }
 
-    virtual void Execute(wxCommandEvent& event) wxOVERRIDE
+    virtual void Execute(wxCommandEvent& event) override
     {
         (m_object->*m_method)(event);
     }
@@ -159,12 +159,12 @@ public:
     {
     }
 
-    virtual LSPMethodCallbackEvent* Clone() const wxOVERRIDE
+    virtual LSPMethodCallbackEvent* Clone() const override
     {
         return new LSPMethodCallbackEvent2(*this);
     }
 
-    virtual void Execute(wxCommandEvent& event) wxOVERRIDE
+    virtual void Execute(wxCommandEvent& event) override
     {
         (m_object->*m_method)(event, m_param2);
     }
@@ -197,12 +197,12 @@ public:
     {
     }
 
-    virtual LSPMethodCallbackEvent* Clone() const wxOVERRIDE
+    virtual LSPMethodCallbackEvent* Clone() const override
     {
         return new LSPMethodCallbackEventFunctor(*this);
     }
 
-    virtual void Execute(wxCommandEvent& event) wxOVERRIDE
+    virtual void Execute(wxCommandEvent& event) override
     {
         m_fn();
     }
