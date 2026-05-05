@@ -120,6 +120,7 @@ class wxsResourceTree: public wxTreeCtrl
 
         static std::map <int, wxString> & GetFilenameMap();
         static wxArrayInt& GetFreedList();
+        static bool& IsConstructed();
 
         void PopupMenu(wxMenu* Menu,wxsResourceTreeItemData* ItemData);
         void InvalidateItemData(wxsResourceTreeItemData* ItemData);

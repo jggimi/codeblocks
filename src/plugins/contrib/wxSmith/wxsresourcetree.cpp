@@ -64,7 +64,7 @@ END_EVENT_TABLE()
 
 
 wxsResourceTree::wxsResourceTree(wxWindow* Parent)
-    : wxTreeCtrl(Parent,-1)
+    : wxTreeCtrl(Parent, wxID_ANY)
     , m_IsExt(false)
     , m_BlockCount(0)
     , m_Data(nullptr)
@@ -87,6 +87,7 @@ wxsResourceTree::wxsResourceTree(wxWindow* Parent)
     }
 
     SetImageList(imagelist);
+    IsConstructed() = true;
     Expand(AddRoot(_("Resources"),m_RootImageId));
 }
 
@@ -169,10 +170,22 @@ std::map <int, wxString> & wxsResourceTree::GetFilenameMap()
 
 int wxsResourceTree::LoadImage(const wxString& FileName)
 {
-    // Store the filename for delay-loading, now it cannot be done
-    // because wxWidgets image handlers have not been initialized
-    const int index = InsertImage(wxBitmap(wxImage(16, 16)));
-    GetFilenameMap()[index] = FileName;
+    int index;
+
+    if (IsConstructed())
+    {
+        // wxWidgets has started, load the bitmap directly
+        const wxBitmap bmp(cbLoadBitmap(ConfigManager::GetDataFolder()+'/'+FileName, wxBITMAP_TYPE_ANY));
+        index = InsertImage(bmp);
+    }
+    else
+    {
+        // Store the filename for delay-loading, now it cannot be done
+        // because wxWidgets image handlers have not been initialized
+        index = InsertImage(wxBitmap(wxImage(16, 16)));
+        GetFilenameMap()[index] = FileName;
+    }
+
     return index;
 }
 
@@ -207,6 +220,12 @@ wxArrayInt& wxsResourceTree::GetFreedList()
 {
     static wxArrayInt List;
     return List;
+}
+
+bool& wxsResourceTree::IsConstructed()
+{
+    static bool Constructed = false;
+    return Constructed;
 }
 
 void wxsResourceTree::FreeImage(int Index)
