@@ -592,7 +592,10 @@ void EditorConfigurationDlg::UpdateSampleFont(bool askForNewFont)
     data.SetInitialFont(tmpFont);
 
     wxFontDialog dlg(this, data);
-    PlaceWindow(&dlg);
+    // On MSW in dark mode with wxWidgets 3.3.3 the call to CenterOnParent() inside PlaceWindow()
+    // makes all checkboxes appear as disabled, they can be "fixed" hovering over them with the mouse.
+    // See ticket #1635 for more information.
+    // PlaceWindow(&dlg);
     if (dlg.ShowModal() == wxID_OK)
     {
         wxFont font = dlg.GetFontData().GetChosenFont();
