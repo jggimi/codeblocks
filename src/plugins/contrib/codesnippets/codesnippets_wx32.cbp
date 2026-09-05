@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Plugin - Win32">
-				<Option output="../../../devel32/share/Codeblocks/plugins/codesnippets.dll" prefix_auto="0" extension_auto="0" />
+				<Option output="../../../devel32/share/CodeBlocks/plugins/codesnippets.dll" prefix_auto="0" extension_auto="0" />
 				<Option working_dir="../../../devel32" />
 				<Option object_output="../../../.objs32/plugins/contrib/codesnippets/plugin/" />
 				<Option type="3" />
