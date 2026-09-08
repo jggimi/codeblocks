@@ -36,7 +36,7 @@ namespace
     WXS_ST_END()
 
     WXS_EV_BEGIN(wxsHyperlinkCtrlEvents)
-        WXS_EVI(EVT_HYPERLINK,wxEVT_COMMAND_HYPERLINK,wxCommandEvent,Click)
+        WXS_EVI(EVT_HYPERLINK, wxEVT_HYPERLINK, wxHyperlinkEvent, Click)
     WXS_EV_END()
 }
 
@@ -51,7 +51,7 @@ wxsHyperlinkCtrl::wxsHyperlinkCtrl(wxsItemResData* Data):
         &Reg.Info,
         wxsHyperlinkCtrlEvents,
         wxsHyperlinkCtrlStyles),
-        m_Label(wxT("http://www.codeblocks.org"))
+        m_Label("https://www.codeblocks.org")
 {}
 
 /*! \brief Create the initial control.
@@ -127,10 +127,10 @@ wxObject* wxsHyperlinkCtrl::OnBuildPreview(wxWindow* parent,long _Flags)
  */
 void wxsHyperlinkCtrl::OnEnumWidgetProperties(cb_unused long _Flags)
 {
-    WXS_STRING(wxsHyperlinkCtrl,m_Label,_("Label"),_T("label"),_T(""),false)
-    WXS_SHORT_STRING(wxsHyperlinkCtrl,m_URL,_("URL"),_T("url"),_T(""),false)
-    WXS_COLOUR(wxsHyperlinkCtrl, m_NormalColour,_T("Normal"),_T("normal_colour"))
-    WXS_COLOUR(wxsHyperlinkCtrl, m_HoverColour,_T("Hover"),_T("hover_colour"))
-    WXS_COLOUR(wxsHyperlinkCtrl, m_VisitedColour,_T("Visited"),_T("visited_colour"))
+    WXS_STRING(wxsHyperlinkCtrl,       m_Label,         _("Label"), "label", "", false)
+    WXS_SHORT_STRING(wxsHyperlinkCtrl, m_URL,           _("URL"),   "url",   "", false)
+    WXS_COLOUR(wxsHyperlinkCtrl,       m_NormalColour,  "Normal",   "normal_colour")
+    WXS_COLOUR(wxsHyperlinkCtrl,       m_HoverColour,   "Hover",    "hover_colour")
+    WXS_COLOUR(wxsHyperlinkCtrl,       m_VisitedColour, "Visited",  "visited_colour")
 }
 
