@@ -127,10 +127,10 @@ wxObject* wxsHyperlinkCtrl::OnBuildPreview(wxWindow* parent,long _Flags)
  */
 void wxsHyperlinkCtrl::OnEnumWidgetProperties(cb_unused long _Flags)
 {
-    WXS_STRING(wxsHyperlinkCtrl,       m_Label,         _("Label"), "label", "", false)
-    WXS_SHORT_STRING(wxsHyperlinkCtrl, m_URL,           _("URL"),   "url",   "", false)
-    WXS_COLOUR(wxsHyperlinkCtrl,       m_NormalColour,  "Normal",   "normal_colour")
-    WXS_COLOUR(wxsHyperlinkCtrl,       m_HoverColour,   "Hover",    "hover_colour")
-    WXS_COLOUR(wxsHyperlinkCtrl,       m_VisitedColour, "Visited",  "visited_colour")
+    WXS_STRING(wxsHyperlinkCtrl,       m_Label,         _("Label"),   "label", "", false)
+    WXS_SHORT_STRING(wxsHyperlinkCtrl, m_URL,           _("URL"),     "url",   "", false)
+    WXS_COLOUR(wxsHyperlinkCtrl,       m_NormalColour,  _("Normal"),  "normal_colour")
+    WXS_COLOUR(wxsHyperlinkCtrl,       m_HoverColour,   _("Hover"),   "hover_colour")
+    WXS_COLOUR(wxsHyperlinkCtrl,       m_VisitedColour, _("Visited"), "visited_colour")
 }
 
