@@ -2473,7 +2473,7 @@ void Debugger_GDB_MI::SendCommand(const wxString& cmd, bool WXUNUSED(debugLog))
     }
     if(not IsExecutorStopped())
     {
-        wxString message(_("Command will not be executed because the debugger/debuggee is not paused/interupted!"));
+        wxString message(_("Command will not be executed because the debugger/debuggee is not paused/interrupted!"));
         Log(message);
         DebugLog(message);
         return;
