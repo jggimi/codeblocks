@@ -142,7 +142,7 @@
 					<object class="sizeritem">
 						<object class="wxCheckBox" name="chkUsePrettyPrinters">
 							<label>Create project PrettyPrinters gdbinit file (when scripts enabled)</label>
-							<tooltip>If enabled, pretty-prints will dispay values of simple var structures</tooltip>
+							<tooltip>If enabled, pretty-prints will display values of simple var structures</tooltip>
 						</object>
 						<flag>wxEXPAND</flag>
 					</object>
