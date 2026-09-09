@@ -876,9 +876,9 @@ bool cbAuiNotebook::LoadPerspective(const wxString& layout, bool mergeLayouts)
         wxString tempLayout;
         while (!currentLayout.empty())
         {
-            if ( currentLayout.BeforeFirst('|').StartsWith(_("layout3")) ||
-                 currentLayout.BeforeFirst('|').StartsWith(_("layout2")) ||
-                 currentLayout.BeforeFirst('|').StartsWith(_("name=dummy")) )
+            if ( currentLayout.BeforeFirst('|').StartsWith("layout3") ||
+                 currentLayout.BeforeFirst('|').StartsWith("layout2") ||
+                 currentLayout.BeforeFirst('|').StartsWith("name=dummy") )
             {
                 currentLayout = currentLayout.AfterFirst('|');
                 currentLayout.Trim();
