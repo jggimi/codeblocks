@@ -623,9 +623,7 @@ bool ThreadSearch::BuildToolBar(wxToolBar* toolBar)
     m_pToolbar = toolBar;
     m_pThreadSearchView->SetToolBar(toolBar);
 
-    const wxString &prefix = GetImagePrefix(true);
-
-    wxSize textSize = Manager::Get()->GetAppWindow()->GetTextExtent(wxString(wxT('A'), 20));
+    wxSize textSize = Manager::Get()->GetAppWindow()->GetTextExtent(wxString('A', 20));
     textSize.y = -1;
     textSize.x = std::max(textSize.x, 200);
     m_pCboSearchExpr = new wxComboBox(toolBar, controlIDs.Get(ControlIDs::idCboSearchExpr),
@@ -633,24 +631,31 @@ bool ThreadSearch::BuildToolBar(wxToolBar* toolBar)
                                       wxCB_DROPDOWN | wxTE_PROCESS_ENTER);
     m_pCboSearchExpr->SetToolTip(_("Text to search"));
 
+#if wxCHECK_VERSION(3, 1, 6)
+    const wxString prefix = ConfigManager::GetDataFolder()+"/ThreadSearch.zip#zip:images/svg/";
+    const int Height = Manager::Get()->GetImageSize(Manager::UIComponent::Toolbars);
+    const wxSize Size(Height, Height);
+    wxBitmapBundle bmpFind            = cbLoadBitmapBundleFromSVG(prefix+"findf.svg",           Size);
+    wxBitmapBundle bmpFindDisabled    = cbLoadBitmapBundleFromSVG(prefix+"findfdisabled.svg",   Size);
+    wxBitmapBundle bmpOptions         = cbLoadBitmapBundleFromSVG(prefix+"options.svg",         Size);
+    wxBitmapBundle bmpOptionsDisabled = cbLoadBitmapBundleFromSVG(prefix+"optionsdisabled.svg", Size);
+#else
+    const wxString &prefix = GetImagePrefix(true);
     const double scaleFactor = cbGetContentScaleFactor(*toolBar);
-
-    wxBitmap bmpFind = cbLoadBitmapScaled(prefix + wxT("findf.png"), wxBITMAP_TYPE_PNG,
-                                          scaleFactor);
-    wxBitmap bmpFindDisabled = cbLoadBitmapScaled(prefix + wxT("findfdisabled.png"),
-                                                  wxBITMAP_TYPE_PNG, scaleFactor);
-    wxBitmap bmpOptions = cbLoadBitmapScaled(prefix + wxT("options.png"), wxBITMAP_TYPE_PNG,
-                                             scaleFactor);
-    wxBitmap bmpOptionsDisabled = cbLoadBitmapScaled(prefix + wxT("optionsdisabled.png"),
-                                                     wxBITMAP_TYPE_PNG, scaleFactor);
+    wxBitmap bmpFind            = cbLoadBitmapScaled(prefix+"findf.png",           wxBITMAP_TYPE_PNG, scaleFactor);
+    wxBitmap bmpFindDisabled    = cbLoadBitmapScaled(prefix+"findfdisabled.png",   wxBITMAP_TYPE_PNG, scaleFactor);
+    wxBitmap bmpOptions         = cbLoadBitmapScaled(prefix+"options.png",         wxBITMAP_TYPE_PNG, scaleFactor);
+    wxBitmap bmpOptionsDisabled = cbLoadBitmapScaled(prefix+"optionsdisabled.png", wxBITMAP_TYPE_PNG, scaleFactor);
+#endif
 
     toolBar->AddControl(m_pCboSearchExpr);
-    toolBar->AddTool(controlIDs.Get(ControlIDs::idBtnSearch), wxString(),
+    toolBar->AddTool(controlIDs.Get(ControlIDs::idBtnSearch), wxEmptyString,
                      bmpFind, bmpFindDisabled,
                      wxITEM_NORMAL, _("Run search"));
-    toolBar->AddTool(controlIDs.Get(ControlIDs::idBtnOptions), wxString(),
+    toolBar->AddTool(controlIDs.Get(ControlIDs::idBtnOptions), wxEmptyString,
                      bmpOptions, bmpOptionsDisabled,
                      wxITEM_NORMAL, _("Show options window"));
+
     m_pThreadSearchView->UpdateOptionsButtonImage(m_FindData);
 
     m_pCboSearchExpr->Append(m_pThreadSearchView->GetSearchHistory());

@@ -74,34 +74,28 @@ ThreadSearchView::ThreadSearchView(ThreadSearch& threadSearchPlugin) :
 #if wxCHECK_VERSION(3, 1, 6)
     const wxString prefix(ConfigManager::GetDataFolder()+"/ThreadSearch.zip#zip:images/svg/");
     const wxSize bmpSize(16, 16);
+    const wxBitmapBundle bmpSearch       = cbLoadBitmapBundleFromSVG(prefix+"findf.svg",   bmpSize);
+    const wxBitmapBundle bmpOptions      = cbLoadBitmapBundleFromSVG(prefix+"options.svg", bmpSize);
+    const wxBitmapBundle bmpShowDirItems = cbLoadBitmapBundleFromSVG(prefix+"showdir.svg", bmpSize);
 #else
     const wxString prefix(GetImagePrefix(false, Manager::Get()->GetAppWindow()));
+    const wxBitmap bmpSearch       = cbLoadBitmap(prefix+"findf.png",   wxBITMAP_TYPE_PNG);
+    const wxBitmap bmpOptions      = cbLoadBitmap(prefix+"options.png", wxBITMAP_TYPE_PNG);
+    const wxBitmap bmpShowDirItems = cbLoadBitmap(prefix+"showdir.png", wxBITMAP_TYPE_PNG);
 #endif
 
     m_pBtnSearch = new wxButton(this, controlIDs.Get(ControlIDs::idBtnSearch), wxEmptyString, wxDefaultPosition, butSize);
-#if wxCHECK_VERSION(3, 1, 6)
-    m_pBtnSearch->SetBitmapLabel(cbLoadBitmapBundleFromSVG(prefix+"findf.svg", bmpSize));
-#else
-    m_pBtnSearch->SetBitmapLabel(cbLoadBitmap(prefix+"findf.png"));
-#endif
+    m_pBtnSearch->SetBitmapLabel(bmpSearch);
 
     m_pBtnOptions = new wxButton(this, controlIDs.Get(ControlIDs::idBtnOptions), wxEmptyString, wxDefaultPosition, butSize);
-#if wxCHECK_VERSION(3, 1, 6)
     m_pBtnOptions->SetBitmapLabel(cbLoadBitmapBundleFromSVG(prefix+"options.svg", bmpSize));
-#else
-    m_pBtnOptions->SetBitmapLabel(cbLoadBitmap(prefix+"options.png"));
-#endif
 
     m_pStaticLine1 = new wxStaticLine(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_VERTICAL);
     m_pStaTxtSearchIn = new wxStaticText(this, -1, _("Search in "));
     m_pStaticLine2 = new wxStaticLine(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_VERTICAL);
 
     m_pBtnShowDirItems = new wxButton(this, controlIDs.Get(ControlIDs::idBtnShowDirItemsClick), wxEmptyString, wxDefaultPosition, butSize);
-#if wxCHECK_VERSION(3, 1, 6)
-    m_pBtnShowDirItems->SetBitmapLabel(cbLoadBitmapBundleFromSVG(prefix+"showdir.svg", bmpSize));
-#else
-    m_pBtnShowDirItems->SetBitmapLabel(cbLoadBitmap(prefix+"showdir.png"));
-#endif
+    m_pBtnShowDirItems->SetBitmapLabel(bmpShowDirItems);
 
     m_pPnlDirParams = new DirectoryParamsPanel(&threadSearchPlugin.GetFindData(), this, -1);
     m_pSearchPreview = new cbStyledTextCtrl(m_pPnlPreview, wxID_ANY, wxDefaultPosition, wxSize(1,1));
@@ -1108,7 +1102,6 @@ void ThreadSearchView::ShowSearchControls(bool show)
     if (redraw)
         pTopSizer->Layout();
 }
-
 
 void ThreadSearchView::ApplySplitterSettings(bool showCodePreview, long splitterMode)
 {
