@@ -35,7 +35,6 @@ END_EVENT_TABLE()
 DebuggerSettingsDlg::DebuggerSettingsDlg(wxWindow* parent)
 {
 	//(*Initialize(DebuggerSettingsDlg)
-	wxBoxSizer* headerSizer;
 	wxBoxSizer* mainSizer;
 	wxPanel* header;
 	wxStaticLine* staticLine;
@@ -45,14 +44,14 @@ DebuggerSettingsDlg::DebuggerSettingsDlg(wxWindow* parent)
 	mainSizer = new wxBoxSizer(wxVERTICAL);
 	header = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxBORDER_NONE|wxTRANSPARENT_WINDOW, _T("wxID_ANY"));
 	header->SetBackgroundColour(wxColour(0,64,128));
-	headerSizer = new wxBoxSizer(wxHORIZONTAL);
+	m_headerSizer = new wxBoxSizer(wxVERTICAL);
 	m_activeInfo = new wxStaticText(header, ID_LABEL_ACTIVE_INFO, _("Active debugger config"), wxDefaultPosition, wxDefaultSize, wxBORDER_NONE|wxTRANSPARENT_WINDOW, _T("ID_LABEL_ACTIVE_INFO"));
 	m_activeInfo->SetForegroundColour(wxColour(255,255,255));
 	m_activeInfo->SetBackgroundColour(wxColour(0,64,128));
-	wxFont m_activeInfoFont(12,wxFONTFAMILY_DEFAULT,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_BOLD,false,wxEmptyString,wxFONTENCODING_DEFAULT);
+	wxFont m_activeInfoFont(14,wxFONTFAMILY_SWISS,wxFONTSTYLE_NORMAL,wxFONTWEIGHT_BOLD,false,_T("Sans"),wxFONTENCODING_DEFAULT);
 	m_activeInfo->SetFont(m_activeInfoFont);
-	headerSizer->Add(m_activeInfo, 1, wxALL|wxALIGN_CENTER_VERTICAL, 5);
-	header->SetSizer(headerSizer);
+	m_headerSizer->Add(m_activeInfo, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5);
+	header->SetSizer(m_headerSizer);
 	mainSizer->Add(header, 0, wxEXPAND, 5);
 	m_treebook = new wxTreebook(this, ID_TREEBOOK, wxDefaultPosition, wxDefaultSize, wxBK_DEFAULT, _T("ID_TREEBOOK"));
 	mainSizer->Add(m_treebook, 1, wxALL|wxEXPAND, 5);
@@ -62,6 +61,7 @@ DebuggerSettingsDlg::DebuggerSettingsDlg(wxWindow* parent)
 	stdDialogButtons->AddButton(new wxButton(this, wxID_OK, wxEmptyString));
 	stdDialogButtons->AddButton(new wxButton(this, wxID_CANCEL, wxEmptyString));
 	stdDialogButtons->Realize();
+	dynamic_cast <wxButton *> (this->FindWindow(wxID_OK))->SetDefault();
 	mainSizer->Add(stdDialogButtons, 0, wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND, 5);
 	SetSizer(mainSizer);
 	mainSizer->SetSizeHints(this);
@@ -278,14 +278,16 @@ void DebuggerSettingsDlg::ResetConfig(wxWindow *panel, cbDebuggerPlugin *plugin)
         }
     }
 
-    CreateConfig(panel, plugin, wxT("Default"));
+    CreateConfig(panel, plugin, "Default");
 }
 
 void DebuggerSettingsDlg::OnPageChanged(wxNotebookEvent& event)
 {
     wxString caption = m_treebook->GetPageText(event.GetSelection());
-    int parent = m_treebook->GetPageParent(event.GetSelection());
+    const int parent = m_treebook->GetPageParent(event.GetSelection());
     if (parent != wxNOT_FOUND)
-        caption = m_treebook->GetPageText(parent) + wxT(" : ") + caption;
+        caption = m_treebook->GetPageText(parent) + " : " + caption;
+
     m_activeInfo->SetLabel(caption);
+    m_headerSizer->Layout();
 }

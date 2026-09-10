@@ -40,6 +40,7 @@ class DebuggerSettingsDlg: public wxScrollingDialog
 
 	private:
 		//(*Declarations(DebuggerSettingsDlg)
+		wxBoxSizer* m_headerSizer;
 		wxStaticText* m_activeInfo;
 		wxTreebook* m_treebook;
 		//*)

@@ -6,6 +6,7 @@
 	#include <wx/button.h>
 	#include <wx/panel.h>
 	#include <wx/sizer.h>
+	#include <wx/statbox.h>
 	#include <wx/textctrl.h>
 	//*)
 #endif

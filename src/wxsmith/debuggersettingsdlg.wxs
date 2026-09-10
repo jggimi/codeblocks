@@ -11,21 +11,25 @@
 				<object class="wxPanel" name="wxID_ANY" variable="header" member="no">
 					<bg>#004080</bg>
 					<style>wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
-					<object class="wxBoxSizer" variable="headerSizer" member="no">
+					<object class="wxBoxSizer" variable="m_headerSizer" member="yes">
+						<orient>wxVERTICAL</orient>
 						<object class="sizeritem">
 							<object class="wxStaticText" name="ID_LABEL_ACTIVE_INFO" variable="m_activeInfo" member="yes">
 								<label>Active debugger config</label>
 								<fg>#FFFFFF</fg>
 								<bg>#004080</bg>
 								<font>
-									<size>12</size>
+									<size>14</size>
+									<style>normal</style>
 									<weight>bold</weight>
+									<underlined>0</underlined>
+									<family>swiss</family>
+									<face>Sans</face>
 								</font>
 								<style>wxBORDER_NONE|wxTRANSPARENT_WINDOW</style>
 							</object>
-							<flag>wxALL|wxALIGN_CENTER_VERTICAL</flag>
+							<flag>wxALL|wxALIGN_CENTER_HORIZONTAL</flag>
 							<border>5</border>
-							<option>1</option>
 						</object>
 					</object>
 				</object>

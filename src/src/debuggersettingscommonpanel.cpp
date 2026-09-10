@@ -62,9 +62,9 @@ DebuggerSettingsCommonPanel::DebuggerSettingsCommonPanel(wxWindow* parent)
 	m_requireCtrlForTooltips->SetValue(false);
 	flexSizer->Add(m_requireCtrlForTooltips, 1, wxTOP|wxLEFT|wxRIGHT|wxALIGN_TOP, 5);
 	valueTooltipSizer = new wxStaticBoxSizer(wxHORIZONTAL, this, _("Value Tooltip Font"));
-	m_valueTooltipLabel = new wxStaticText(this, ID_VALUE_TOOLTIP_LABEL, _("This is a sample text"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_VALUE_TOOLTIP_LABEL"));
+	m_valueTooltipLabel = new wxStaticText(valueTooltipSizer->GetStaticBox(), ID_VALUE_TOOLTIP_LABEL, _("This is a sample text"), wxDefaultPosition, wxDefaultSize, 0, _T("ID_VALUE_TOOLTIP_LABEL"));
 	valueTooltipSizer->Add(m_valueTooltipLabel, 1, wxALIGN_CENTER_VERTICAL, 5);
-	chooseFont = new wxButton(this, ID_BUTTON_CHOOSE_FONT, _("Choose"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON_CHOOSE_FONT"));
+	chooseFont = new wxButton(valueTooltipSizer->GetStaticBox(), ID_BUTTON_CHOOSE_FONT, _("Choose"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_BUTTON_CHOOSE_FONT"));
 	valueTooltipSizer->Add(chooseFont, 0, wxLEFT|wxALIGN_CENTER_VERTICAL, 5);
 	flexSizer->Add(valueTooltipSizer, 1, wxTOP|wxLEFT|wxRIGHT|wxEXPAND, 5);
 	BoxSizer1 = new wxBoxSizer(wxHORIZONTAL);
@@ -130,7 +130,10 @@ void DebuggerSettingsCommonPanel::OnChooseFontClick(cb_unused wxCommandEvent& ev
     wxFontData data;
     data.SetInitialFont(wxFont(fontInfo));
     wxFontDialog dlg(this, data);
-    PlaceWindow(&dlg);
+    // On MSW in dark mode with wxWidgets 3.3.3 the call to CenterOnParent() inside PlaceWindow()
+    // makes all checkboxes appear as disabled, they can be "fixed" hovering over them with the mouse.
+    // See ticket #1635 for more information.
+    // PlaceWindow(&dlg);
     if (dlg.ShowModal() == wxID_OK)
     {
         m_valueTooltipFontInfo = dlg.GetFontData().GetChosenFont().GetNativeFontInfo()->ToString();

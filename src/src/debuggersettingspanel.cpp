@@ -53,7 +53,7 @@ DebuggerSettingsPanel::DebuggerSettingsPanel(wxWindow* parent, DebuggerSettingsD
 	buttonSizer->Add(butReset, 1, wxLEFT|wxALIGN_BOTTOM, 5);
 	mainSizer->Add(buttonSizer, 0, wxALL|wxEXPAND|wxSHAPED, 0);
 	infoSizer = new wxStaticBoxSizer(wxHORIZONTAL, this, _("Info"));
-	textInfo = new wxTextCtrl(this, ID_TEXTCTRL_INFO, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL_INFO"));
+	textInfo = new wxTextCtrl(infoSizer->GetStaticBox(), ID_TEXTCTRL_INFO, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL_INFO"));
 	textInfo->Disable();
 	infoSizer->Add(textInfo, 1, wxEXPAND, 5);
 	mainSizer->Add(infoSizer, 1, wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND, 0);
