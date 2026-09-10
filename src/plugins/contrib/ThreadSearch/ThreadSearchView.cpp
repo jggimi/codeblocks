@@ -88,7 +88,7 @@ ThreadSearchView::ThreadSearchView(ThreadSearch& threadSearchPlugin) :
     m_pBtnSearch->SetBitmapLabel(bmpSearch);
 
     m_pBtnOptions = new wxButton(this, controlIDs.Get(ControlIDs::idBtnOptions), wxEmptyString, wxDefaultPosition, butSize);
-    m_pBtnOptions->SetBitmapLabel(cbLoadBitmapBundleFromSVG(prefix+"options.svg", bmpSize));
+    m_pBtnOptions->SetBitmapLabel(bmpOptions);
 
     m_pStaticLine1 = new wxStaticLine(this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_VERTICAL);
     m_pStaTxtSearchIn = new wxStaticText(this, -1, _("Search in "));
