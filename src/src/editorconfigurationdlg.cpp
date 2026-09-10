@@ -430,7 +430,28 @@ void EditorConfigurationDlg::CreateColoursSample()
         m_TextColourControl->SetMinSize(wxSize(50,50));
         m_TextColourControl->SetMarginWidth(1, 0);
 
-        wxXmlResource::Get()->AttachUnknownControl(_T("txtColoursSample"), m_TextColourControl);
+        // Match font and caret with those used in cbEditor
+        // Adapted from cbEditor::InternalSetEditorStyleBeforeFileOpen()
+        ConfigManager* mgr = Manager::Get()->GetConfigManager("editor");
+        wxFont font(10, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+        const wxString fontstring(mgr->Read("/font", wxEmptyString));
+        if (!fontstring.empty())
+        {
+            wxNativeFontInfo nfi;
+            nfi.FromString(fontstring);
+            font.SetNativeFontInfo(nfi);
+        }
+
+        m_TextColourControl->StyleSetFont(wxSCI_STYLE_DEFAULT, font);
+
+        const int caretStyle = mgr->ReadInt("/caret/style", wxSCI_CARETSTYLE_LINE);
+        m_TextColourControl->SetCaretStyle(caretStyle);
+        m_TextColourControl->SetCaretWidth((caretStyle == wxSCI_CARETSTYLE_LINE) ? mgr->ReadInt("/caret/width", 1) : 1);
+        m_TextColourControl->SetCaretForeground(Manager::Get()->GetColourManager()->GetColour("editor_caret"));
+        m_TextColourControl->SetCaretPeriod(mgr->ReadInt("/caret/period", 500));
+        m_TextColourControl->SetCaretLineVisible(mgr->ReadBool("/highlight_caret_line", false));
+
+        wxXmlResource::Get()->AttachUnknownControl("txtColoursSample", m_TextColourControl);
     }
 
     int breakLine = -1;
