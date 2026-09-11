@@ -138,7 +138,7 @@
 										<label>Ignore invalid targets</label>
 										<tooltip>When checked the user will not be prompted to deal with invalid targets,&#x0A;during the build process they will be ignored (example : the target&apos;s compiler is not installed)</tooltip>
 									</object>
-									<flag>wxTOP|wxLEFT|wxEXPAND</flag>
+									<flag>wxTOP|wxLEFT</flag>
 									<border>4</border>
 								</object>
 								<object class="sizeritem">
