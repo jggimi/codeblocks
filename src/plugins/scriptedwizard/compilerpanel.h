@@ -13,6 +13,7 @@
 #include <wx/combobox.h>
 #include <wx/panel.h>
 #include <wx/sizer.h>
+#include <wx/statbox.h>
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
 //*)

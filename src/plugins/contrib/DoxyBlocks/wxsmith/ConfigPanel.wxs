@@ -483,7 +483,7 @@
 											<option>1</option>
 										</object>
 									</object>
-									<flag>wxEXPAND</flag>
+									<flag>wxALIGN_LEFT</flag>
 									<border>5</border>
 								</object>
 								<object class="sizeritem">
@@ -509,7 +509,7 @@
 											<option>1</option>
 										</object>
 									</object>
-									<flag>wxEXPAND</flag>
+									<flag>wxALIGN_LEFT</flag>
 									<border>5</border>
 								</object>
 							</object>
@@ -738,7 +738,6 @@
 													</object>
 													<flag>wxALL|wxALIGN_CENTER_VERTICAL</flag>
 													<border>5</border>
-													<option>1</option>
 												</object>
 											</object>
 											<flag>wxEXPAND</flag>

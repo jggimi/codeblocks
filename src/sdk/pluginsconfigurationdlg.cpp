@@ -38,8 +38,19 @@
 
 static wxString GetInitialInfo()
 {
+#if wxCHECK_VERSION(3, 3, 2)
+    const bool IsDark = wxSystemSettings::GetAppearance()IsDark();
+#else
+    const bool IsDark = false;
+#endif
+
     wxString initialInfo;
-    initialInfo << _T("<html><body><font color=\"#0000AA\">");
+
+    if (IsDark)
+        initialInfo << _T("<html><body><font color=\"#6666AA\">");
+    else
+        initialInfo << _T("<html><body><font color=\"#0000AA\">");
+
     initialInfo << _("Tip: The above list allows for multiple selections.");
     initialInfo << _T("</font><br /><br /><b><font color=\"red\">");
     initialInfo << _("Have you saved your work first?");
@@ -47,7 +58,11 @@ static wxString GetInitialInfo()
     initialInfo << _("If a plugin is not well-written, it could cause Code::Blocks to crash when performing any operation on it...");
     initialInfo << _T("<br></font></b><br /><i><font color=\"green\">\n");
     initialInfo << _("Some additional plugins can be found here:");
-    initialInfo << _T("</font></b><br /><i><font color=\"black\">\n");
+    if (IsDark)
+        initialInfo << _T("</font></b><br /><i><font color=\"white\">\n");
+    else
+        initialInfo << _T("</font></b><br /><i><font color=\"black\">\n");
+
     initialInfo << _T("<A href=\"https://wiki.codeblocks.org/index.php?title=Announcement_for_plugins/patches\">");
     initialInfo << _T("https://wiki.codeblocks.org/index.php?title=Announcement_for_plugins/patches\n </A>");
 
@@ -55,7 +70,11 @@ static wxString GetInitialInfo()
     {
         initialInfo << _T("</font></i><br /><br /><b><font color=\"red\">");
         initialInfo << _("Code::Blocks started up in \"safe-mode\"");
-        initialInfo << _T("</font></b><br /><i><font color=\"black\">\n");
+        if (IsDark)
+            initialInfo << _T("</font></b><br /><i><font color=\"white\">\n");
+        else
+            initialInfo << _T("</font></b><br /><i><font color=\"black\">\n");
+
         initialInfo << _("All plugins were disabled on startup so that you can troubleshoot problematic plugins. Enable plugins at will now...");
     }
 

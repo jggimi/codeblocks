@@ -21,7 +21,7 @@
 												<object class="sizeritem">
 													<object class="wxListCtrl" name="chkStartupScripts">
 														<size>-1,160</size>
-														<style>wxLC_REPORT|wxLC_SINGLE_SEL|wxSUNKEN_BORDER</style>
+														<style>wxLC_REPORT|wxLC_SINGLE_SEL|wxBORDER_SUNKEN</style>
 													</object>
 													<flag>wxEXPAND</flag>
 													<option>1</option>
@@ -143,49 +143,49 @@
 											<object class="wxCheckBox" name="chkMkDir">
 												<label>Create directories</label>
 											</object>
-											<flag>wxALL|wxEXPAND</flag>
+											<flag>wxALL</flag>
 											<border>5</border>
 										</object>
 										<object class="sizeritem">
 											<object class="wxCheckBox" name="chkRmDir">
 												<label>Delete (non-empty) directories</label>
 											</object>
-											<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND</flag>
+											<flag>wxBOTTOM|wxLEFT|wxRIGHT</flag>
 											<border>5</border>
 										</object>
 										<object class="sizeritem">
 											<object class="wxCheckBox" name="chkCp">
 												<label>Copy files</label>
 											</object>
-											<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND</flag>
+											<flag>wxBOTTOM|wxLEFT|wxRIGHT</flag>
 											<border>5</border>
 										</object>
 										<object class="sizeritem">
 											<object class="wxCheckBox" name="chkMv">
 												<label>Rename files</label>
 											</object>
-											<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND</flag>
+											<flag>wxBOTTOM|wxLEFT|wxRIGHT</flag>
 											<border>5</border>
 										</object>
 										<object class="sizeritem">
 											<object class="wxCheckBox" name="chkRm">
 												<label>Delete files</label>
 											</object>
-											<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND</flag>
+											<flag>wxBOTTOM|wxLEFT|wxRIGHT</flag>
 											<border>5</border>
 										</object>
 										<object class="sizeritem">
 											<object class="wxCheckBox" name="chkTouch">
 												<label>Create new files</label>
 											</object>
-											<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND</flag>
+											<flag>wxBOTTOM|wxLEFT|wxRIGHT</flag>
 											<border>5</border>
 										</object>
 										<object class="sizeritem">
 											<object class="wxCheckBox" name="chkExec">
 												<label>Launch executables</label>
 											</object>
-											<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND</flag>
+											<flag>wxBOTTOM|wxLEFT|wxRIGHT</flag>
 											<border>5</border>
 										</object>
 									</object>
@@ -213,7 +213,7 @@
 										</object>
 										<object class="sizeritem">
 											<object class="wxListCtrl" name="lstTrustedScripts">
-												<style>wxLC_REPORT|wxLC_SINGLE_SEL|wxSUNKEN_BORDER</style>
+												<style>wxLC_REPORT|wxLC_SINGLE_SEL|wxBORDER_SUNKEN</style>
 											</object>
 											<flag>wxALL|wxEXPAND</flag>
 											<border>5</border>

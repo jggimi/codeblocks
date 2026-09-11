@@ -678,7 +678,7 @@
 															<object class="wxCheckBox" name="chkAlwaysRunPost">
 																<label>Always execute, even if target is up-to-date</label>
 															</object>
-															<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND</flag>
+															<flag>wxBOTTOM|wxLEFT|wxRIGHT</flag>
 															<border>2</border>
 														</object>
 													</object>
@@ -1202,14 +1202,14 @@
 													<object class="wxCheckBox" name="chkIncludeFileCwd">
 														<label>Explicitly add currently compiling file&apos;s directory to compiler search dirs</label>
 													</object>
-													<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND</flag>
+													<flag>wxBOTTOM|wxLEFT|wxRIGHT</flag>
 													<border>8</border>
 												</object>
 												<object class="sizeritem">
 													<object class="wxCheckBox" name="chkIncludePrjCwd">
 														<label>Explicitly add project&apos;s top-level directory to compiler search dirs</label>
 													</object>
-													<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND</flag>
+													<flag>wxBOTTOM|wxLEFT|wxRIGHT</flag>
 													<border>8</border>
 												</object>
 												<object class="sizeritem">
@@ -1217,7 +1217,7 @@
 														<label>Skip include dependency check to compute what files need to be compiled (HANDLE WITH CARE!)</label>
 														<help>Enabling this option will skip the calculation of files to be forced to be compiled due to #includes.&#x0A;Setting this option wrong may break the build process.&#x0A;It is intended for compilers/languages not working with the default #include statements.</help>
 													</object>
-													<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND</flag>
+													<flag>wxBOTTOM|wxLEFT|wxRIGHT</flag>
 													<border>8</border>
 												</object>
 												<object class="sizeritem">
@@ -1229,7 +1229,7 @@
 													<object class="wxCheckBox" name="chkSaveHtmlLog">
 														<label>Save build log to HTML file when build is finished.</label>
 													</object>
-													<flag>wxLEFT|wxRIGHT|wxEXPAND</flag>
+													<flag>wxLEFT|wxRIGHT</flag>
 													<border>8</border>
 												</object>
 												<object class="sizeritem">
@@ -1249,14 +1249,14 @@
 													<object class="wxCheckBox" name="chkBuildProgressBar">
 														<label>Display build progress bar</label>
 													</object>
-													<flag>wxALL|wxEXPAND</flag>
+													<flag>wxALL</flag>
 													<border>8</border>
 												</object>
 												<object class="sizeritem">
 													<object class="wxCheckBox" name="chkBuildProgressPerc">
 														<label>Display build progress percentage in log</label>
 													</object>
-													<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND</flag>
+													<flag>wxBOTTOM|wxLEFT|wxRIGHT</flag>
 													<border>8</border>
 												</object>
 												<object class="sizeritem">
@@ -1272,7 +1272,7 @@
 															<object class="wxCheckBox" name="chkRebuildSeperately">
 																<label>Clean and Build all projects/targets one by one</label>
 															</object>
-															<flag>wxALL|wxEXPAND</flag>
+															<flag>wxALL</flag>
 															<border>8</border>
 														</object>
 														<object class="sizeritem">
@@ -1329,7 +1329,7 @@
 														<label>Enable non-platform compilers</label>
 														<tooltip>Enable to use i.e. cross-platform compilers</tooltip>
 													</object>
-													<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND</flag>
+													<flag>wxBOTTOM|wxLEFT|wxRIGHT</flag>
 													<border>8</border>
 												</object>
 												<object class="sizeritem">
@@ -1337,7 +1337,7 @@
 														<label>Silence compiler messages</label>
 														<tooltip>Do not show any compiler messages while compiling (should be used temporarily only!)</tooltip>
 													</object>
-													<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND</flag>
+													<flag>wxBOTTOM|wxLEFT|wxRIGHT</flag>
 													<border>8</border>
 												</object>
 												<object class="sizeritem">

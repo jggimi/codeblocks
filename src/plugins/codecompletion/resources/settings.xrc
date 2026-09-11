@@ -17,21 +17,21 @@
 											<object class="wxCheckBox" name="chkUseSmartSense">
 												<label>Disable SmartSense</label>
 											</object>
-											<flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND</flag>
+											<flag>wxTOP|wxLEFT|wxRIGHT</flag>
 											<border>5</border>
 										</object>
 										<object class="sizeritem">
 											<object class="wxCheckBox" name="chkWhileTyping">
 												<label>Update parser when typing (on save otherwise)</label>
 											</object>
-											<flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND</flag>
+											<flag>wxTOP|wxLEFT|wxRIGHT</flag>
 											<border>5</border>
 										</object>
 										<object class="sizeritem">
 											<object class="wxCheckBox" name="chkAutoAddParentheses">
 												<label>Add parentheses after function name auto completion</label>
 											</object>
-											<flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND</flag>
+											<flag>wxTOP|wxLEFT|wxRIGHT</flag>
 											<border>5</border>
 										</object>
 										<object class="spacer">
@@ -43,21 +43,21 @@
 											<object class="wxCheckBox" name="chkDetectImpl">
 												<label>Add function arguments&apos; types and names when autocompleted outside function</label>
 											</object>
-											<flag>wxLEFT|wxEXPAND</flag>
+											<flag>wxLEFT</flag>
 											<border>20</border>
 										</object>
 										<object class="sizeritem">
 											<object class="wxCheckBox" name="chkAddDoxgenComment">
 												<label>Add doxygen comment, when implementing the function method</label>
 											</object>
-											<flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND</flag>
+											<flag>wxTOP|wxLEFT|wxRIGHT</flag>
 											<border>5</border>
 										</object>
 										<object class="sizeritem">
 											<object class="wxCheckBox" name="chkEnableHeaders">
 												<label>Enable headers code-completion</label>
 											</object>
-											<flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND</flag>
+											<flag>wxTOP|wxLEFT|wxRIGHT</flag>
 											<border>5</border>
 										</object>
 										<object class="sizeritem">
@@ -65,7 +65,7 @@
 												<label>Disable pseudo semantic keyword highlighting</label>
 												<tooltip>If this is checked, member variables will not be highlighted in the editor.</tooltip>
 											</object>
-											<flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND</flag>
+											<flag>wxTOP|wxLEFT|wxRIGHT</flag>
 											<border>5</border>
 										</object>
 										<object class="sizeritem">
@@ -317,7 +317,7 @@
 															<object class="wxRadioButton" name="rdoOneParserPerWorkspace">
 																<label>Use one parser for the whole workspace</label>
 															</object>
-															<flag>wxALL|wxEXPAND</flag>
+															<flag>wxALL</flag>
 															<border>5</border>
 														</object>
 														<object class="sizeritem">
@@ -325,7 +325,7 @@
 																<label>Use one parser per project</label>
 																<selected>1</selected>
 															</object>
-															<flag>wxALL|wxEXPAND</flag>
+															<flag>wxALL</flag>
 															<border>5</border>
 														</object>
 														<object class="sizeritem">
@@ -415,7 +415,6 @@
 											<flag>wxALL|wxEXPAND</flag>
 											<border>5</border>
 										</object>
-										<!-- Enable CC debugging begin -->
 										<object class="sizeritem">
 											<object class="wxCheckBox" name="chkCCDebugLogging">
 												<label>Enable Debug Logging</label>
@@ -423,7 +422,6 @@
 											<flag>wxALL|wxALIGN_LEFT</flag>
 											<border>5</border>
 										</object>
-										 <!-- Enable CC debugging end -->
 									</object>
 									<flag>wxALL|wxEXPAND</flag>
 									<border>8</border>
@@ -440,7 +438,7 @@
 									<object class="wxCheckBox" name="chkNoSB">
 										<label>Disable symbols browser</label>
 									</object>
-									<flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND</flag>
+									<flag>wxTOP|wxLEFT|wxRIGHT</flag>
 									<border>8</border>
 								</object>
 								<object class="sizeritem">
@@ -451,28 +449,28 @@
 											<object class="wxCheckBox" name="chkInheritance">
 												<label>Display inheritance info</label>
 											</object>
-											<flag>wxALL|wxEXPAND</flag>
+											<flag>wxALL</flag>
 											<border>5</border>
 										</object>
 										<object class="sizeritem">
 											<object class="wxCheckBox" name="chkExpandNS">
 												<label>Automatically expand namespaces</label>
 											</object>
-											<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND</flag>
+											<flag>wxBOTTOM|wxLEFT|wxRIGHT</flag>
 											<border>5</border>
 										</object>
 										<object class="sizeritem">
 											<object class="wxCheckBox" name="chkFloatCB">
 												<label>Display as free floating/docking window</label>
 											</object>
-											<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND</flag>
+											<flag>wxBOTTOM|wxLEFT|wxRIGHT</flag>
 											<border>5</border>
 										</object>
 										<object class="sizeritem">
 											<object class="wxCheckBox" name="chkTreeMembers">
 												<label>Display member list in separate tree</label>
 											</object>
-											<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND</flag>
+											<flag>wxBOTTOM|wxLEFT|wxRIGHT</flag>
 											<border>5</border>
 											<option>1</option>
 										</object>

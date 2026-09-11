@@ -114,6 +114,7 @@
 															<object class="wxTextCtrl" name="txtExecutionDir">
 																<enabled>0</enabled>
 															</object>
+															<flag>wxALIGN_LEFT</flag>
 															<border>2</border>
 															<option>1</option>
 														</object>
@@ -440,21 +441,21 @@
 																		<label>Pause when execution ends</label>
 																		<tooltip>Pause with &quot;Press any key&quot; when execution ends (only when executed from inside Code::Blocks)</tooltip>
 																	</object>
-																	<flag>wxEXPAND</flag>
+																	<flag>wxALIGN_LEFT</flag>
 																	<border>4</border>
 																</object>
 																<object class="sizeritem">
 																	<object class="wxCheckBox" name="chkCreateStaticLib">
 																		<label>Create import library</label>
 																	</object>
-																	<flag>wxTOP|wxEXPAND</flag>
+																	<flag>wxTOP</flag>
 																	<border>4</border>
 																</object>
 																<object class="sizeritem">
 																	<object class="wxCheckBox" name="chkCreateDefFile">
 																		<label>Create .DEF exports file</label>
 																	</object>
-																	<flag>wxTOP|wxEXPAND</flag>
+																	<flag>wxTOP</flag>
 																	<border>4</border>
 																</object>
 																<object class="sizeritem">
@@ -550,14 +551,14 @@
 																		<label>Auto-generate filename prefix</label>
 																		<checked>1</checked>
 																	</object>
-																	<flag>wxEXPAND</flag>
+																	<flag>wxALIGN_LEFT</flag>
 																</object>
 																<object class="sizeritem">
 																	<object class="wxCheckBox" name="chkAutoGenExt">
 																		<label>Auto-generate filename extension</label>
 																		<checked>1</checked>
 																	</object>
-																	<flag>wxTOP|wxEXPAND</flag>
+																	<flag>wxTOP</flag>
 																	<border>4</border>
 																</object>
 																<object class="sizeritem">

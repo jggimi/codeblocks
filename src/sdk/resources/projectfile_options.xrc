@@ -372,7 +372,7 @@
 											<object class="wxCheckBox" name="chkBuildStage">
 												<label>Use custom command to build this file:</label>
 											</object>
-											<flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND</flag>
+											<flag>wxTOP|wxLEFT|wxRIGHT</flag>
 											<border>4</border>
 										</object>
 										<object class="sizeritem">

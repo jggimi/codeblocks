@@ -418,14 +418,14 @@
 						<object class="wxCheckBox" name="ID_CHECKBOX10" variable="m_RemovePrefix" member="yes">
 							<label>Auto remove variable prefix for event handler function</label>
 						</object>
-						<flag>wxEXPAND</flag>
+						<flag>wxALIGN_LEFT</flag>
 						<border>5</border>
 					</object>
 					<object class="sizeritem">
 						<object class="wxCheckBox" name="ID_CHECKBOX13" variable="m_UseBind" member="yes">
 							<label>Use Bind() instead of Connect()</label>
 						</object>
-						<flag>wxTOP|wxEXPAND</flag>
+						<flag>wxTOP</flag>
 						<border>5</border>
 					</object>
 					<object class="sizeritem">
@@ -433,7 +433,7 @@
 							<label>Use generic (wxObjectEventFunction) instead of handler type specific function</label>
 							<checked>1</checked>
 						</object>
-						<flag>wxTOP|wxEXPAND</flag>
+						<flag>wxTOP</flag>
 						<border>5</border>
 					</object>
 					<object class="sizeritem">

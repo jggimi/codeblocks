@@ -45,14 +45,14 @@
 										<object class="wxCheckBox" name="chkInstallGlobally">
 											<label>Install system-wide, for all users of this machine (requires administrative rights).</label>
 										</object>
-										<flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND</flag>
+										<flag>wxTOP|wxLEFT|wxRIGHT</flag>
 										<border>5</border>
 									</object>
 									<object class="sizeritem">
 										<object class="wxCheckBox" name="chkInstallConfirmation">
 											<label>Ask for confirmation if conflicts arise.</label>
 										</object>
-										<flag>wxALL|wxEXPAND</flag>
+										<flag>wxALL</flag>
 										<border>5</border>
 									</object>
 								</object>

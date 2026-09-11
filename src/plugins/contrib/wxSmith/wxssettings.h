@@ -35,6 +35,7 @@
 #include <wx/radiobut.h>
 #include <wx/sizer.h>
 #include <wx/spinctrl.h>
+#include <wx/statbox.h>
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
 //*)

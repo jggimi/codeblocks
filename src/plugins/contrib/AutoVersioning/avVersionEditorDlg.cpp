@@ -235,30 +235,30 @@ avVersionEditorDlg::avVersionEditorDlg(wxWindow* parent,wxWindowID /*id*/)
     chkAutoIncrement = new wxCheckBox(pnlSettings, ID_AUTO_CHECK, _("Autoincrement Major and Minor"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_AUTO_CHECK"));
     chkAutoIncrement->SetValue(true);
     chkAutoIncrement->SetToolTip(_("Use the default scheme for \nautoincrementing the major \nand minor versions."));
-    BoxSizer13->Add(chkAutoIncrement, 0, wxALL|wxEXPAND, 5);
+    BoxSizer13->Add(chkAutoIncrement, 0, wxALL, 5);
     chkDates = new wxCheckBox(pnlSettings, ID_DATES_CHECK, _("Create date declarations"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_DATES_CHECK"));
     chkDates->SetValue(true);
     chkDates->SetToolTip(_("Create variable declarations\nfor date, month and year. And \nalso an ubuntu version style."));
-    BoxSizer13->Add(chkDates, 0, wxALL|wxEXPAND, 5);
+    BoxSizer13->Add(chkDates, 0, wxALL, 5);
     chkDefine = new wxCheckBox(pnlSettings, ID_DEFINE_CHECK, _("Use #define"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_DEFINE_CHECK"));
     chkDefine->SetValue(false);
     chkDefine->SetToolTip(_("Use #define declaration instead of static variables"));
-    BoxSizer13->Add(chkDefine, 0, wxALL|wxEXPAND, 5);
+    BoxSizer13->Add(chkDefine, 0, wxALL, 5);
     chkUpdateManifest = new wxCheckBox(pnlSettings, ID_UPDATE_MANIFEST, _("Update manifest.xml"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_UPDATE_MANIFEST"));
     chkUpdateManifest->SetValue(false);
     chkUpdateManifest->SetToolTip(_("Update manifest.xml\'s version field with AutoVersion\'s\nvalues using the format MAJOR.MINOR.BUILD.\nThis setting is mainly useful for plugin developers."));
-    BoxSizer13->Add(chkUpdateManifest, 0, wxALL|wxALIGN_LEFT, 5);
+    BoxSizer13->Add(chkUpdateManifest, 0, wxALL, 5);
     BoxSizer11->Add(BoxSizer13, 1, wxALL|wxEXPAND, 5);
     BoxSizer14 = new wxBoxSizer(wxVERTICAL);
     chkCommit = new wxCheckBox(pnlSettings, ID_COMMIT_CHECK, _("Do Autoincrement"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_COMMIT_CHECK"));
     chkCommit->SetValue(false);
     chkCommit->SetToolTip(_("If you check this the version\ninfo will increment when files have\nbeen modified every time before\ncompilation takes effect."));
-    BoxSizer14->Add(chkCommit, 0, wxALL|wxEXPAND, 5);
+    BoxSizer14->Add(chkCommit, 0, wxALL, 5);
     chkAskCommit = new wxCheckBox(pnlSettings, ID_ASKCOMMIT_CHECK, _("Ask to Increment"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_ASKCOMMIT_CHECK"));
     chkAskCommit->SetValue(false);
     chkAskCommit->Disable();
     chkAskCommit->SetToolTip(_("Ask you to increment every time\na change has been made to the \nsource code, before the compilation\ntakes effect."));
-    BoxSizer14->Add(chkAskCommit, 0, wxALL|wxEXPAND, 5);
+    BoxSizer14->Add(chkAskCommit, 0, wxALL, 5);
     BoxSizer14->Add(-1,-1,1, wxALL|wxALIGN_LEFT, 5);
     BoxSizer11->Add(BoxSizer14, 0, wxALL|wxEXPAND, 5);
     settingsSizer->Add(BoxSizer11, 1, wxALL|wxEXPAND, 5);
@@ -280,8 +280,8 @@ avVersionEditorDlg::avVersionEditorDlg(wxWindow* parent,wxWindowID /*id*/)
     BoxSizer8 = new wxBoxSizer(wxHORIZONTAL);
     wxString __wxRadioBoxChoices_1[2] =
     {
-      _("C"),
-      _("C++")
+        _("C"),
+        _("C++")
     };
     rbHeaderLanguage = new wxRadioBox(pnlSettings, ID_HEADERLANGUAGE_RADIOBOX, _("Header language"), wxDefaultPosition, wxDefaultSize, 2, __wxRadioBoxChoices_1, 2, wxRA_VERTICAL, wxDefaultValidator, _T("ID_HEADERLANGUAGE_RADIOBOX"));
     rbHeaderLanguage->SetSelection(1);
@@ -294,7 +294,7 @@ avVersionEditorDlg::avVersionEditorDlg(wxWindow* parent,wxWindowID /*id*/)
     chkSvn = new wxCheckBox(pnlSettings, ID_SVN_CHECK, _("SVN enabled"), wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_SVN_CHECK"));
     chkSvn->SetValue(false);
     chkSvn->SetToolTip(_("Check this if your project is controlled by svn\nto generate an SVN_REVISION declaration."));
-    settingsSizer->Add(chkSvn, 0, wxALL|wxEXPAND, 2);
+    settingsSizer->Add(chkSvn, 0, wxALL, 2);
     svnSizer = new wxBoxSizer(wxHORIZONTAL);
     txtSvnDir = new wxTextCtrl(pnlSettings, ID_SVNDIR_TEXT, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_SVNDIR_TEXT"));
     txtSvnDir->Disable();

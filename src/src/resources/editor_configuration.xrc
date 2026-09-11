@@ -405,28 +405,28 @@
 																<object class="wxCheckBox" name="chkEnableVirtualSpace">
 																	<label>Enable virtual space (space beyond the end of line)</label>
 																</object>
-																<flag>wxBOTTOM|wxLEFT|wxEXPAND</flag>
+																<flag>wxBOTTOM|wxLEFT</flag>
 																<border>4</border>
 															</object>
 															<object class="sizeritem">
 																<object class="wxCheckBox" name="chkEnableRectVirtualSpace">
 																	<label>Enable virtual space for rectangle selections</label>
 																</object>
-																<flag>wxBOTTOM|wxLEFT|wxEXPAND</flag>
+																<flag>wxBOTTOM|wxLEFT</flag>
 																<border>4</border>
 															</object>
 															<object class="sizeritem">
 																<object class="wxCheckBox" name="chkEnableMultipleSelections">
 																	<label>Allow multiple selections</label>
 																</object>
-																<flag>wxBOTTOM|wxLEFT|wxEXPAND</flag>
+																<flag>wxBOTTOM|wxLEFT</flag>
 																<border>4</border>
 															</object>
 															<object class="sizeritem">
 																<object class="wxCheckBox" name="chkEnableAdditionalSelectionTyping">
 																	<label>Enable typing (and deleting) in multiple selections simultaneously</label>
 																</object>
-																<flag>wxLEFT|wxEXPAND</flag>
+																<flag>wxLEFT</flag>
 																<border>16</border>
 															</object>
 														</object>
@@ -462,7 +462,7 @@
 																			<label>Home/end to wrap point (line otherwise)</label>
 																			<checked>1</checked>
 																		</object>
-																		<flag>wxEXPAND</flag>
+																		<flag>wxALIGN_LEFT</flag>
 																	</object>
 																	<object class="sizeritem">
 																		<object class="wxCheckBox" name="chkPosixRegex">
@@ -669,7 +669,7 @@
 															</content>
 															<style>wxRA_SPECIFY_COLS</style>
 														</object>
-														<flag>wxTOP|wxLEFT|wxRIGHT|wxEXPAND</flag>
+														<flag>wxTOP|wxLEFT|wxRIGHT</flag>
 														<border>4</border>
 													</object>
 												</object>
@@ -773,7 +773,7 @@
 																	</content>
 																	<style>wxRA_SPECIFY_COLS</style>
 																</object>
-																<flag>wxEXPAND</flag>
+																<flag>wxALIGN_LEFT</flag>
 																<border>4</border>
 															</object>
 															<object class="sizeritem">
@@ -823,7 +823,7 @@
 									<object class="wxCheckBox" name="chkEnableFolding">
 										<label>Enable folding</label>
 									</object>
-									<flag>wxLEFT|wxEXPAND</flag>
+									<flag>wxLEFT</flag>
 									<border>4</border>
 								</object>
 								<object class="sizeritem">
@@ -834,21 +834,21 @@
 											<object class="wxCheckBox" name="chkFoldPreprocessor">
 												<label>Fold preprocessor commands</label>
 											</object>
-											<flag>wxALL|wxEXPAND</flag>
+											<flag>wxALL</flag>
 											<border>4</border>
 										</object>
 										<object class="sizeritem">
 											<object class="wxCheckBox" name="chkFoldComments">
 												<label>Fold comments</label>
 											</object>
-											<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND</flag>
+											<flag>wxBOTTOM|wxLEFT|wxRIGHT</flag>
 											<border>4</border>
 										</object>
 										<object class="sizeritem">
 											<object class="wxCheckBox" name="chkFoldXml">
 												<label>Fold XML</label>
 											</object>
-											<flag>wxBOTTOM|wxLEFT|wxRIGHT|wxEXPAND</flag>
+											<flag>wxBOTTOM|wxLEFT|wxRIGHT</flag>
 											<border>4</border>
 										</object>
 									</object>
@@ -859,7 +859,7 @@
 									<object class="wxCheckBox" name="chkFoldOnOpen">
 										<label>Fold all on file open</label>
 									</object>
-									<flag>wxTOP|wxLEFT|wxEXPAND</flag>
+									<flag>wxTOP|wxLEFT</flag>
 									<border>4</border>
 								</object>
 								<object class="sizeritem">
@@ -969,14 +969,14 @@
 											<object class="wxCheckBox" name="chkAddBPByLeftClick">
 												<label>Add/remove breakpoints by left-clicking</label>
 											</object>
-											<flag>wxBOTTOM|wxLEFT|wxEXPAND</flag>
+											<flag>wxBOTTOM|wxLEFT</flag>
 											<border>4</border>
 										</object>
 										<object class="sizeritem">
 											<object class="wxCheckBox" name="chkImageBP">
 												<label>Use images for breakpoints</label>
 											</object>
-											<flag>wxBOTTOM|wxLEFT|wxEXPAND</flag>
+											<flag>wxBOTTOM|wxLEFT</flag>
 											<border>4</border>
 										</object>
 										<object class="sizeritem">
@@ -984,7 +984,7 @@
 												<label>Use changebar</label>
 												<checked>1</checked>
 											</object>
-											<flag>wxLEFT|wxEXPAND</flag>
+											<flag>wxLEFT</flag>
 											<border>4</border>
 										</object>
 										<object class="sizeritem">
@@ -1360,21 +1360,21 @@
 																	<object class="wxCheckBox" name="chkColoursBold">
 																		<label>Bold</label>
 																	</object>
-																	<flag>wxEXPAND</flag>
+																	<flag>wxALIGN_LEFT</flag>
 																	<border>4</border>
 																</object>
 																<object class="sizeritem">
 																	<object class="wxCheckBox" name="chkColoursItalics">
 																		<label>Italics</label>
 																	</object>
-																	<flag>wxTOP|wxEXPAND</flag>
+																	<flag>wxTOP</flag>
 																	<border>4</border>
 																</object>
 																<object class="sizeritem">
 																	<object class="wxCheckBox" name="chkColoursUnderlined">
 																		<label>Underlined</label>
 																	</object>
-																	<flag>wxTOP|wxEXPAND</flag>
+																	<flag>wxTOP</flag>
 																	<border>4</border>
 																</object>
 															</object>
